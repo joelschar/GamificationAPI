@@ -1,0 +1,52 @@
+CREATE DATABASE IF NOT EXISTS GamificationAPIDatabase DEFAULT CHARACTER SET `utf8` DEFAULT COLLATE `utf8_general_ci`;
+
+
+USE GamificationAPIDatabase;
+
+CREATE TABLE IF NOT EXISTS tbApp (
+	appId INT UNSIGNED PRIMARY KEY,
+	APISecret varchar(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS tbUser (
+	userId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    userEmail varchar(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS tbBadge (
+	badgeId INT UNSIGNED PRIMARY KEY,
+	avatar blob,
+	name varchar(25) NOT NULL,
+	description TEXT
+);
+
+CREATE TABLE IF NOT EXISTS tbPointScale (
+	pointScaleId INT UNSIGNED PRIMARY KEY,
+	name varchar(25) NOT NULL,
+	description TEXT,
+	score INT UNSIGNED
+);
+
+CREATE TABLE IF NOT EXISTS tbUserApp (
+	userId INT UNSIGNED NOT NULL,
+	APISecret varchar(255) NOT NULL,
+	CONSTRAINT pk_user_app PRIMARY KEY (userId, APISecret),
+	CONSTRAINT fk_tbUserApp_tbApp FOREIGN KEY (APISecret) REFERENCES tbApp (APISecret) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT fk_tbUserApp_tbUser FOREIGN KEY (userId) REFERENCES tbUser (userId) ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS tbUserBadge (
+	userId INT UNSIGNED NOT NULL,
+	badgeId INT UNSIGNED NOT NULL,
+	CONSTRAINT pk_user_badge PRIMARY KEY (userId, badgeId),
+	CONSTRAINT fk_tbUserBadge_tbBadge FOREIGN KEY (badgeId) REFERENCES tbBadge (badgeId) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT fk_tbUserBadge_tbUser FOREIGN KEY (userId) REFERENCES tbUser (userId) ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS tbUserPointScale (
+	userId INT UNSIGNED NOT NULL,
+	pointScaleId INT UNSIGNED NOT NULL,
+	CONSTRAINT pk_user_pointScale PRIMARY KEY (userId, pointScaleId),
+	CONSTRAINT fk_tbUserPointScale_tbPointScale FOREIGN KEY (pointScaleId) REFERENCES tbPointScale (pointScaleId) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT fk_tbUserPointScale_tbUser FOREIGN KEY (userId) REFERENCES tbUser (userId) ON UPDATE CASCADE
+);
