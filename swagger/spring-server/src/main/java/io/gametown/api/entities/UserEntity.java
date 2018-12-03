@@ -2,10 +2,7 @@ package io.gametown.api.entities;
 
 import io.gametown.api.api.model.Badge;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,7 +19,9 @@ public class UserEntity implements Serializable {
     private String firstname;
     private String lastname;
     private String email;
-    private List<Badge> badges;
+
+    @ManyToMany
+    private List<BadgeEntity> badges;
 
     public long getId() {
         return id;
@@ -52,11 +51,15 @@ public class UserEntity implements Serializable {
         this.email = email;
     }
 
-    public List<Badge> getBadges() {
+    public List<BadgeEntity> getBadges() {
         return badges;
     }
 
-    public void setBadges(List<Badge> badges) {
+    public void addBadgesItem(BadgeEntity badgesItem) {
+        this.badges.add(badgesItem);
+    }
+
+    public void setBadges(List<BadgeEntity> badges) {
         this.badges = badges;
     }
 }

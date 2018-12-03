@@ -91,7 +91,9 @@ paths:
         '200':
           description: success
           schema:
-            $ref: '#/definitions/Badge'
+            type: array
+            items:
+              $ref: '#/definitions/Badge'
 
 definitions:
   User:

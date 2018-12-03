@@ -26,8 +26,29 @@ public class GamificationApiController implements UsersApi {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
     BadgeRepository badgeRepository;
 
+    @Override
+    public ResponseEntity<Object> createBadge(Integer userId, Badge badge) {
+        // Adding a Badge to a the User
+        UserEntity myUserEntity = userRepository.findOne(Long.valueOf(userId));
+        myUserEntity.addBadgesItem(toBadgeEntity(badge));
+        userRepository.save(myUserEntity);
+
+        // Create the Badge
+        BadgeEntity newBadgeEntity = toBadgeEntity(badge);
+        badgeRepository.save(newBadgeEntity);
+        Long id = newBadgeEntity.getId();
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(newBadgeEntity.getId()).toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @Override
     public ResponseEntity<Object> createUser(@ApiParam(value = "", required = true) @Valid @RequestBody User user) {
         UserEntity newUserEntity = toUserEntity(user);
         userRepository.save(newUserEntity);
@@ -40,58 +61,42 @@ public class GamificationApiController implements UsersApi {
         return ResponseEntity.created(location).build();
     }
 
+    @Override
+    public ResponseEntity<User> getUser(Integer userId) {
+        UserEntity myUserEntity = userRepository.findOne(Long.valueOf(userId));
+        User myUser = toUser(myUserEntity);
+        return ResponseEntity.ok(myUser);
+    }
 
+    @Override
+    public ResponseEntity<List<Badge>> getUserBadges(Integer userId) {
+        List<Badge> badges = new ArrayList<>();
+        UserEntity myUserEntity = userRepository.findOne(Long.valueOf(userId));
+        for (BadgeEntity myBadgeEntity : myUserEntity.getBadges()) {
+            badges.add(toBadge(myBadgeEntity));
+        }
+        return ResponseEntity.ok(badges);
+    }
+
+    @Override
     public ResponseEntity<List<User>> getUsers() {
         List<User> users = new ArrayList<>();
         for (UserEntity userEntity : userRepository.findAll()) {
             users.add(toUser(userEntity));
         }
-        /*
-        Fruit staticFruit = new Fruit();
-        staticFruit.setColour("red");
-        staticFruit.setKind("banana");
-        staticFruit.setSize("medium");
-        List<Fruit> fruits = new ArrayList<>();
-        fruits.add(staticFruit);
-        */
         return ResponseEntity.ok(users);
     }
-
-    public ResponseEntity<Object> createBadge(@ApiParam(value = "", required = true) @Valid @RequestBody Badge badge) {
-        BadgeEntity newBadgeEntity = toBadgeEntity(badge);
-        badgeRepository.save(newBadgeEntity);
-        Long id = newBadgeEntity.getId();
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().path("/{id}")
-                .buildAndExpand(newBadgeEntity.getId()).toUri();
-
-        return ResponseEntity.created(location).build();
-    }
-
-    public ResponseEntity<List<Badge>> getBadges() {
-        List<Badge> badges = new ArrayList<>();
-        for (BadgeEntity badgeEntity : badgeRepository.findAll()) {
-            badges.add(toBadge(badgeEntity));
-        }
-        /*
-        Fruit staticFruit = new Fruit();
-        staticFruit.setColour("red");
-        staticFruit.setKind("banana");
-        staticFruit.setSize("medium");
-        List<Fruit> fruits = new ArrayList<>();
-        fruits.add(staticFruit);
-        */
-        return ResponseEntity.ok(badges);
-    }
-
 
     private UserEntity toUserEntity(User user) {
         UserEntity entity = new UserEntity();
         entity.setFirstname(user.getFirstname());
         entity.setLastname(user.getLastname());
         entity.setEmail(user.getEmail());
-        entity.setBadges(user.getBadges());
+        List<BadgeEntity> badges = new ArrayList<>();
+        for (Badge myBadge : user.getBadges()) {
+            badges.add(toBadgeEntity(myBadge));
+        }
+        entity.setBadges(badges);
         return entity;
     }
 
@@ -100,7 +105,11 @@ public class GamificationApiController implements UsersApi {
         user.setFirstname(entity.getFirstname());
         user.setLastname(entity.getLastname());
         user.setEmail(entity.getEmail());
-        user.badges(entity.getBadges());
+        List<Badge> badges = new ArrayList<>();
+        for (BadgeEntity myBadgeEntity : entity.getBadges()) {
+            badges.add(toBadge(myBadgeEntity));
+        }
+        user.badges(badges);
         return user;
     }
 
