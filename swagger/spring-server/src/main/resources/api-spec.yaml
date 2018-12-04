@@ -8,23 +8,309 @@ basePath: /api
 schemes:
 - http
 paths:
-  /users:
+  /badges:
+    get:
+      description: get the list of all badges
+      operationId: getBadges
+      produces:
+      - application/json
+      # security:
+      #- apiKey: []
+      #appSecret: []
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Badge'
+        #'401':
+        #  $ref: '#/definitions/responses/UnauthorizedError'
     post:
-      description: create a user
-      operationId: createUser
+      description: create new badge
+      operationId: createBadge
       consumes:
       - application/json
+      produces:
+      - application/json
       parameters:
-      - name: user
-        in: body
+      - in: header
+        name: apiKey
+        required: true
+        type: integer
+      - in: header
+        name: apiSecret
+        required: true
+        type: string
+      - in: body
+        name: badge
         required: true
         schema:
-          $ref: '#/definitions/User'
+          $ref: '#/definitions/Badge'
       responses:
         '201':
           description: created
           schema:
-            type: object
+            $ref: '#/definitions/Badge'
+    patch:
+      description: update badge
+      operationId: updateBadge
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: integer
+      - in: header
+        name: apiSecret
+        required: true
+        type: string
+      - in: body
+        name: badge
+        required: true
+        schema:
+          $ref: '#/definitions/Badge'
+      responses:
+        '204':
+          description: updated successfully
+          schema:
+            $ref: '#/definitions/Badge'
+    delete:
+      description: remove badge
+      operationId: deleteBadge
+      consumes:
+      - application/json
+      parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: integer
+      - in: header
+        name: apiSecret
+        required: true
+        type: string
+      - in: body
+        name: badge
+        schema:
+          $ref: '#/definitions/Badge'
+      responses:
+        '202':
+          description: marked for deletion
+
+  /pointScales:
+    get:
+      description: get the list of all Point Scales
+      operationId: getPointScales
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: integer
+      - in: header
+        name: apiSecret
+        required: true
+        type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PointScale'
+    post:
+      description: create new Point Scale
+      operationId: createPointScale
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: integer
+      - in: header
+        name: apiSecret
+        required: true
+        type: string
+      - in: body
+        name: pointScale
+        required: true
+        schema:
+          $ref: '#/definitions/PointScale'
+      responses:
+        '201':
+          description: created
+          schema:
+            $ref: '#/definitions/PointScale'
+    patch:
+      description: update badge
+      operationId: updatePointScale
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: integer
+      - in: header
+        name: apiSecret
+        required: true
+        type: string
+      - in: body
+        name: badge
+        required: true
+        schema:
+          $ref: '#/definitions/PointScale'
+      responses:
+        '204':
+          description: updated successfully
+          schema:
+            $ref: '#/definitions/PointScale'
+    delete:
+      description: remove badge
+      operationId: deletePointScale
+      consumes:
+      - application/json
+      parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: integer
+      - in: header
+        name: apiSecret
+        required: true
+        type: string
+      - in: body
+        name: badge
+        schema:
+          $ref: '#/definitions/PointScale'
+      responses:
+        '202':
+          description: marked for deletion
+
+  /rules:
+    get:
+      description: get the list of all Rules
+      operationId: getRules
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: integer
+      - in: header
+        name: apiSecret
+        required: true
+        type: string
+      responses:
+        '200':
+          description: success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Rule'
+    post:
+      description: create new Rule
+      operationId: createRule
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: integer
+      - in: header
+        name: apiSecret
+        required: true
+        type: string
+      - in: body
+        name: pointScale
+        required: true
+        schema:
+          $ref: '#/definitions/Rule'
+      responses:
+        '201':
+          description: created
+          schema:
+            $ref: '#/definitions/Rule'
+    patch:
+      description: update Rule
+      operationId: updateRule
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: integer
+      - in: header
+        name: apiSecret
+        required: true
+        type: string
+      - in: body
+        name: badge
+        required: true
+        schema:
+          $ref: '#/definitions/Rule'
+      responses:
+        '204':
+          description: updated successfully
+          schema:
+            $ref: '#/definitions/Rule'
+    delete:
+      description: remove Rule
+      operationId: deleteRule
+      consumes:
+      - application/json
+      parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: integer
+      - in: header
+        name: apiSecret
+        required: true
+        type: string
+      - in: body
+        name: badge
+        schema:
+          $ref: '#/definitions/Rule'
+      responses:
+        '202':
+          description: marked for deletion
+
+  /events:
+    post:
+      description: creat event for user
+      operationId: newEvent
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: event
+        required: true
+        schema:
+          $ref: '#/definitions/Event'
+      responses:
+        '201':
+          description: success
+          schema:
+            $ref: '#/definitions/Event'
+
+  /users:
     get:
       description: get the list of all users
       operationId: getUsers
@@ -56,27 +342,6 @@ paths:
             $ref: '#/definitions/User'
 
   /users/{userId}/badges:
-    post:
-      description: create a badge
-      operationId: createBadge
-      consumes:
-      - application/json
-      parameters:
-      - in: path
-        name: userId
-        required: true
-        type: integer
-      - name: badge
-        in: body
-        required: true
-        schema:
-          $ref: '#/definitions/Badge'
-      responses:
-        '201':
-          description: created
-          schema:
-            type: object
-
     get:
       description: get a user's badge list
       operationId: getUserBadges
@@ -91,12 +356,16 @@ paths:
         '200':
           description: success
           schema:
-            $ref: '#/definitions/Badge'
+            type: array
+            items:
+              $ref: '#/definitions/Badge'
 
 definitions:
   User:
     type: object
     properties:
+      id:
+        type: integer
       firstname:
         type: string
       lastname:
@@ -107,9 +376,53 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Badge'
-
   Badge:
     type: object
     properties:
+      id:
+        type: integer
       name:
         type: string
+  PointScale:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  Rule:
+    type: object
+    properties:
+      id:
+        type: integer
+      value:
+        type: string
+      condition:
+        type: string
+  Event:
+    type: object
+    properties:
+      id:
+        type: integer
+      user:
+        $ref: '#/definitions/User'
+      event:
+        type: string
+
+#components:
+# security:
+#    apiKey:
+#      type: apiKey
+#     in: header
+#      name: X-API-KEY
+#    appSecret:
+#      type: apiSecret
+#      in: header
+#      name: X-APP-SECRET
+#  responses:
+#    UnauthorizedError:
+#      description: API key is missing or invalid
+#      headers:
+#        WWW_Authenticate:
+#          schema:
+#            type: string
