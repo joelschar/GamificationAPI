@@ -22,13 +22,14 @@ import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-07-26T19:36:34.802Z")
 
 @Controller
-public class GamificationApiController implements UsersApi {
+public class UserApiController implements UsersApi {
 
     @Autowired
     UserRepository userRepository;
     @Autowired
     BadgeRepository badgeRepository;
 
+    /*
     @Override
     public ResponseEntity<Object> createBadge(Integer userId, Badge badge) {
         // Adding a Badge to a the User
@@ -59,7 +60,7 @@ public class GamificationApiController implements UsersApi {
                 .buildAndExpand(newUserEntity.getId()).toUri();
 
         return ResponseEntity.created(location).build();
-    }
+    }*/
 
     @Override
     public ResponseEntity<User> getUser(Integer userId) {
