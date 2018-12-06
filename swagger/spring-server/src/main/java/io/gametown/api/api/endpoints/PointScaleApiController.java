@@ -5,9 +5,11 @@ import io.gametown.api.api.UsersApi;
 import io.gametown.api.api.model.Badge;
 import io.gametown.api.api.model.PointScale;
 import io.gametown.api.api.model.User;
+import io.gametown.api.entities.ApplicationEntity;
 import io.gametown.api.entities.BadgeEntity;
 import io.gametown.api.entities.PointScaleEntity;
 import io.gametown.api.entities.UserEntity;
+import io.gametown.api.repositories.ApplicationRepository;
 import io.gametown.api.repositories.BadgeRepository;
 import io.gametown.api.repositories.PointScaleRepository;
 import io.gametown.api.repositories.UserRepository;
@@ -31,9 +33,23 @@ public class PointScaleApiController implements PointScalesApi {
     @Autowired
     PointScaleRepository pointScaleRepository;
 
+    @Autowired
+    ApplicationRepository applicationRepository;
+
     @Override
     public ResponseEntity<PointScale> createPointScale(Integer apiKey, String apiSecret, PointScale pointScale) {
-        return null;
+        PointScaleEntity newPointScaleEntity = toPointScaleEntity(pointScale);
+        pointScaleRepository.save(newPointScaleEntity);
+        Long id = newPointScaleEntity.getId();
+
+        // TODO : Ajouter à l'application
+        //ApplicationEntity myApplicationEntity = applicationRepository.findOne(MON_FUCKING_ID);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(newPointScaleEntity.getId()).toUri();
+
+        return ResponseEntity.created(location).build();
     }
 
     @Override
