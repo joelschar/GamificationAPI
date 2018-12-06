@@ -24,22 +24,22 @@ public class BadgeApiController implements BadgesApi {
     BadgeRepository badgeRepository;
 
     @Override
-    public ResponseEntity<Badge> createBadge(Integer apiKey, String apiSecret, Badge badge) {
+    public ResponseEntity<Badge> createBadge(String apiKey, Badge badge) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Void> deleteBadge(Integer apiKey, String apiSecret, Badge badge) {
+    public ResponseEntity<Void> deleteBadge(String apiKey, Badge badge) {
         return null;
     }
 
     @Override
-    public ResponseEntity<List<Badge>> getBadges() {
+    public ResponseEntity<List<Badge>> getBadges(String apiKey) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Badge> updateBadge(Integer apiKey, String apiSecret, Badge badge) {
+    public ResponseEntity<Badge> updateBadge(String apiKey, Badge badge) {
         return null;
     }
 

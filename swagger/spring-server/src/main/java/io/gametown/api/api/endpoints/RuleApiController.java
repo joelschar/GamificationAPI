@@ -26,22 +26,22 @@ public class RuleApiController implements RulesApi {
     RuleRepository ruleRepository;
 
     @Override
-    public ResponseEntity<Rule> createRule(Integer apiKey, String apiSecret, Rule pointScale) {
+    public ResponseEntity<Rule> createRule(String apiKey, Rule pointScale) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Void> deleteRule(Integer apiKey, String apiSecret, Rule badge) {
+    public ResponseEntity<Void> deleteRule(String apiKey, Rule badge) {
         return null;
     }
 
     @Override
-    public ResponseEntity<List<Rule>> getRules(Integer apiKey, String apiSecret) {
+    public ResponseEntity<List<Rule>> getRules(String apiKey) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Rule> updateRule(Integer apiKey, String apiSecret, Rule badge) {
+    public ResponseEntity<Rule> updateRule(String apiKey, Rule badge) {
         return null;
     }
 

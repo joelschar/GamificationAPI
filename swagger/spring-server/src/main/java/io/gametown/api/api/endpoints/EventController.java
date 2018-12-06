@@ -23,7 +23,7 @@ public class EventController implements EventsApi {
     EventRepository eventRepository;
 
     @Override
-    public ResponseEntity<Event> newEvent(Event event) {
+    public ResponseEntity<Event> newEvent(String apiKey, Event event) {
         return null;
     }
 

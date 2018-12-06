@@ -14,9 +14,11 @@ paths:
       operationId: getBadges
       produces:
       - application/json
-      # security:
-      #- apiKey: []
-      #appSecret: []
+      parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: string
       responses:
         '200':
           description: success
@@ -24,8 +26,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Badge'
-        #'401':
-        #  $ref: '#/definitions/responses/UnauthorizedError'
     post:
       description: create new badge
       operationId: createBadge
@@ -36,10 +36,6 @@ paths:
       parameters:
       - in: header
         name: apiKey
-        required: true
-        type: integer
-      - in: header
-        name: apiSecret
         required: true
         type: string
       - in: body
@@ -63,10 +59,6 @@ paths:
       - in: header
         name: apiKey
         required: true
-        type: integer
-      - in: header
-        name: apiSecret
-        required: true
         type: string
       - in: body
         name: badge
@@ -87,10 +79,6 @@ paths:
       - in: header
         name: apiKey
         required: true
-        type: integer
-      - in: header
-        name: apiSecret
-        required: true
         type: string
       - in: body
         name: badge
@@ -110,10 +98,6 @@ paths:
       - in: header
         name: apiKey
         required: true
-        type: integer
-      - in: header
-        name: apiSecret
-        required: true
         type: string
       responses:
         '200':
@@ -132,10 +116,6 @@ paths:
       parameters:
       - in: header
         name: apiKey
-        required: true
-        type: integer
-      - in: header
-        name: apiSecret
         required: true
         type: string
       - in: body
@@ -159,10 +139,6 @@ paths:
       - in: header
         name: apiKey
         required: true
-        type: integer
-      - in: header
-        name: apiSecret
-        required: true
         type: string
       - in: body
         name: badge
@@ -183,10 +159,6 @@ paths:
       - in: header
         name: apiKey
         required: true
-        type: integer
-      - in: header
-        name: apiSecret
-        required: true
         type: string
       - in: body
         name: badge
@@ -206,10 +178,6 @@ paths:
       - in: header
         name: apiKey
         required: true
-        type: integer
-      - in: header
-        name: apiSecret
-        required: true
         type: string
       responses:
         '200':
@@ -228,10 +196,6 @@ paths:
       parameters:
       - in: header
         name: apiKey
-        required: true
-        type: integer
-      - in: header
-        name: apiSecret
         required: true
         type: string
       - in: body
@@ -255,10 +219,6 @@ paths:
       - in: header
         name: apiKey
         required: true
-        type: integer
-      - in: header
-        name: apiSecret
-        required: true
         type: string
       - in: body
         name: badge
@@ -279,10 +239,6 @@ paths:
       - in: header
         name: apiKey
         required: true
-        type: integer
-      - in: header
-        name: apiSecret
-        required: true
         type: string
       - in: body
         name: badge
@@ -299,6 +255,10 @@ paths:
       produces:
       - application/json
       parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: string
       - in: body
         name: event
         required: true
@@ -309,13 +269,17 @@ paths:
           description: success
           schema:
             $ref: '#/definitions/Event'
-
   /users:
     get:
       description: get the list of all users
       operationId: getUsers
       produces:
       - application/json
+      parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: string
       responses:
         '200':
           description: success
@@ -331,6 +295,10 @@ paths:
       produces:
       - application/json
       parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: string
       - in: path
         name: userId
         required: true
@@ -340,7 +308,6 @@ paths:
           description: success
           schema:
             $ref: '#/definitions/User'
-
   /users/{userId}/badges:
     get:
       description: get a user's badge list
@@ -348,6 +315,10 @@ paths:
       produces:
       - application/json
       parameters:
+      - in: header
+        name: apiKey
+        required: true
+        type: string
       - in: path
         name: userId
         required: true
@@ -359,7 +330,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Badge'
-
 definitions:
   User:
     type: object
@@ -372,10 +342,6 @@ definitions:
         type: string
       email:
         type: string
-      badges:
-        type: array
-        items:
-          $ref: '#/definitions/Badge'
   Badge:
     type: object
     properties:
@@ -408,21 +374,3 @@ definitions:
         $ref: '#/definitions/User'
       event:
         type: string
-
-#components:
-# security:
-#    apiKey:
-#      type: apiKey
-#     in: header
-#      name: X-API-KEY
-#    appSecret:
-#      type: apiSecret
-#      in: header
-#      name: X-APP-SECRET
-#  responses:
-#    UnauthorizedError:
-#      description: API key is missing or invalid
-#      headers:
-#        WWW_Authenticate:
-#          schema:
-#            type: string

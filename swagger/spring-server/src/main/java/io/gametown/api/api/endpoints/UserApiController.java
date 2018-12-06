@@ -63,14 +63,14 @@ public class UserApiController implements UsersApi {
     }*/
 
     @Override
-    public ResponseEntity<User> getUser(Integer userId) {
+    public ResponseEntity<User> getUser(String apiKey, Integer userId) {
         UserEntity myUserEntity = userRepository.findOne(Long.valueOf(userId));
         User myUser = toUser(myUserEntity);
         return ResponseEntity.ok(myUser);
     }
 
     @Override
-    public ResponseEntity<List<Badge>> getUserBadges(Integer userId) {
+    public ResponseEntity<List<Badge>> getUserBadges(String apiKey, Integer userId) {
         List<Badge> badges = new ArrayList<>();
         UserEntity myUserEntity = userRepository.findOne(Long.valueOf(userId));
         for (BadgeEntity myBadgeEntity : myUserEntity.getBadges()) {
@@ -80,7 +80,7 @@ public class UserApiController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<User>> getUsers(String apiKey) {
         List<User> users = new ArrayList<>();
         for (UserEntity userEntity : userRepository.findAll()) {
             users.add(toUser(userEntity));
@@ -93,11 +93,6 @@ public class UserApiController implements UsersApi {
         entity.setFirstname(user.getFirstname());
         entity.setLastname(user.getLastname());
         entity.setEmail(user.getEmail());
-        List<BadgeEntity> badges = new ArrayList<>();
-        for (Badge myBadge : user.getBadges()) {
-            badges.add(toBadgeEntity(myBadge));
-        }
-        entity.setBadges(badges);
         return entity;
     }
 
@@ -106,11 +101,6 @@ public class UserApiController implements UsersApi {
         user.setFirstname(entity.getFirstname());
         user.setLastname(entity.getLastname());
         user.setEmail(entity.getEmail());
-        List<Badge> badges = new ArrayList<>();
-        for (BadgeEntity myBadgeEntity : entity.getBadges()) {
-            badges.add(toBadge(myBadgeEntity));
-        }
-        user.badges(badges);
         return user;
     }
 
@@ -125,5 +115,4 @@ public class UserApiController implements UsersApi {
         badge.setName(entity.getName());
         return badge;
     }
-
 }

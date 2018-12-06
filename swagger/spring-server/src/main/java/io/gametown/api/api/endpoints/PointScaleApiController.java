@@ -37,7 +37,7 @@ public class PointScaleApiController implements PointScalesApi {
     ApplicationRepository applicationRepository;
 
     @Override
-    public ResponseEntity<PointScale> createPointScale(Integer apiKey, String apiSecret, PointScale pointScale) {
+    public ResponseEntity<PointScale> createPointScale(String apiKey, PointScale pointScale) {
         PointScaleEntity newPointScaleEntity = toPointScaleEntity(pointScale);
         pointScaleRepository.save(newPointScaleEntity);
         Long id = newPointScaleEntity.getId();
@@ -54,17 +54,17 @@ public class PointScaleApiController implements PointScalesApi {
     }
 
     @Override
-    public ResponseEntity<Void> deletePointScale(Integer apiKey, String apiSecret, PointScale badge) {
+    public ResponseEntity<Void> deletePointScale(String apiKey, PointScale badge) {
         return null;
     }
 
     @Override
-    public ResponseEntity<List<PointScale>> getPointScales(Integer apiKey, String apiSecret) {
+    public ResponseEntity<List<PointScale>> getPointScales(String apiKey) {
         return null;
     }
 
     @Override
-    public ResponseEntity<PointScale> updatePointScale(Integer apiKey, String apiSecret, PointScale badge) {
+    public ResponseEntity<PointScale> updatePointScale(String apiKey, PointScale badge) {
         return null;
     }
 

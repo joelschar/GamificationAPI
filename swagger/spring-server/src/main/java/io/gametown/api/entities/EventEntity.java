@@ -16,19 +16,10 @@ public class EventEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private UserEntity user;
     private String event;
 
     public long getId() {
         return id;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
     }
 
     public String getEvent() {

@@ -54,12 +54,4 @@ public class UserEntity implements Serializable {
     public List<BadgeEntity> getBadges() {
         return badges;
     }
-
-    public void addBadgesItem(BadgeEntity badgesItem) {
-        this.badges.add(badgesItem);
-    }
-
-    public void setBadges(List<BadgeEntity> badges) {
-        this.badges = badges;
-    }
 }
