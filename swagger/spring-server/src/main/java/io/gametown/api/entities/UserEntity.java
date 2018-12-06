@@ -20,9 +20,6 @@ public class UserEntity implements Serializable {
     private String lastname;
     private String email;
 
-    @ManyToMany
-    private List<BadgeEntity> badges;
-
     public long getId() {
         return id;
     }
@@ -49,9 +46,5 @@ public class UserEntity implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<BadgeEntity> getBadges() {
-        return badges;
     }
 }

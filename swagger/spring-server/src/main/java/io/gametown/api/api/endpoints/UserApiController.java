@@ -64,19 +64,21 @@ public class UserApiController implements UsersApi {
 
     @Override
     public ResponseEntity<User> getUser(String apiKey, Integer userId) {
-        UserEntity myUserEntity = userRepository.findOne(Long.valueOf(userId));
-        User myUser = toUser(myUserEntity);
-        return ResponseEntity.ok(myUser);
+        //UserEntity myUserEntity = userRepository.findOne(Long.valueOf(userId));
+       // User myUser = toUser(myUserEntity);
+        //return ResponseEntity.ok(myUser);
+        return null;
     }
 
     @Override
     public ResponseEntity<List<Badge>> getUserBadges(String apiKey, Integer userId) {
         List<Badge> badges = new ArrayList<>();
-        UserEntity myUserEntity = userRepository.findOne(Long.valueOf(userId));
-        for (BadgeEntity myBadgeEntity : myUserEntity.getBadges()) {
-            badges.add(toBadge(myBadgeEntity));
-        }
-        return ResponseEntity.ok(badges);
+        //UserEntity myUserEntity = userRepository.findOne(Long.valueOf(userId));
+        //for (BadgeEntity myBadgeEntity : myUserEntity.getBadges()) {
+        //    badges.add(toBadge(myBadgeEntity));
+        //}
+        //return ResponseEntity.ok(badges);
+        return null;
     }
 
     @Override

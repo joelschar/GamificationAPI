@@ -15,7 +15,6 @@ public class ApplicationEntity implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private String apiKey;
 
     public String getApiKey() {

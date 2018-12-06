@@ -19,7 +19,7 @@ public class RuleEntity implements Serializable {
     private long id;
 
     private String value;
-    private String condition;
+    private String kondition;
     
     public long getId() {
         return id;
@@ -37,11 +37,11 @@ public class RuleEntity implements Serializable {
         this.value = value;
     }
 
-    public String getCondition() {
-        return condition;
+    public String getKondition() {
+        return kondition;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public void setKondition(String condition) {
+        this.kondition = kondition;
     }
 }

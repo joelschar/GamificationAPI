@@ -47,14 +47,14 @@ public class RuleApiController implements RulesApi {
 
     private RuleEntity toRuleEntity(Rule rule) {
         RuleEntity entity = new RuleEntity();
-        entity.setCondition(rule.getCondition());
+        entity.setKondition(rule.getCondition());
         entity.setValue(rule.getValue());
         return entity;
     }
 
     private Rule toRule(RuleEntity entity) {
         Rule rule = new Rule();
-        rule.setCondition(entity.getCondition());
+        rule.setCondition(entity.getKondition());
         rule.setValue(entity.getValue());
         return rule;
     }
