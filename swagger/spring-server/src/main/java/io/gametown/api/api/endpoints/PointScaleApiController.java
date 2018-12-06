@@ -43,6 +43,7 @@ public class PointScaleApiController implements PointScalesApi {
         Long id = newPointScaleEntity.getId();
 
         // TODO : Ajouter à l'application
+        //applicationRepository.findOne(apiKey);
         //ApplicationEntity myApplicationEntity = applicationRepository.findOne(MON_FUCKING_ID);
 
         URI location = ServletUriComponentsBuilder

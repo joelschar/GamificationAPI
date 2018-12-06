@@ -7,6 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * Created by Olivier Liechti on 26/07/17.
  */
-public interface ApplicationRepository extends CrudRepository<ApplicationEntity, Long>{
+public interface ApplicationRepository extends CrudRepository<ApplicationEntity, String>{
 
 }

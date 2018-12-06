@@ -1,10 +1,8 @@
 package io.gametown.api.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Olivier Liechti on 26/07/17.
@@ -12,7 +10,12 @@ import java.io.Serializable;
 @Entity
 public class ApplicationEntity implements Serializable {
 
+    ApplicationEntity(String apiKey){
+        this.apiKey = apiKey;
+    }
+
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private String apiKey;
 
     public String getApiKey() {
