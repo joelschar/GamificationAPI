@@ -41,7 +41,7 @@ public class RuleEntity implements Serializable {
         return kondition;
     }
 
-    public void setKondition(String condition) {
+    public void setKondition(String kondition) {
         this.kondition = kondition;
     }
 }
