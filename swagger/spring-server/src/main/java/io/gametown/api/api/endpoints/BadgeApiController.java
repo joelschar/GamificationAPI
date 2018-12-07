@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -48,14 +49,17 @@ public class BadgeApiController implements BadgesApi {
     @Override
     public ResponseEntity<Badge> createBadge(String apiKey, Badge badge) {
 
-        //ApplicationEntity applicationEntity = applicationRepository.findById(apiKey);
-
-
+        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        List<BadgeEntity> badges = applicationEntity.getBadges();
 
         // Create the Badge
         BadgeEntity newBadgeEntity = toBadgeEntity(badge);
         badgeRepository.save(newBadgeEntity);
         Long id = newBadgeEntity.getId();
+
+        badges.add(newBadgeEntity);
+        applicationEntity.setBadges(badges);
+        applicationRepository.save(applicationEntity);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
