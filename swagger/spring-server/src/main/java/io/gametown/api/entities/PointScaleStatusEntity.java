@@ -1,29 +1,30 @@
 package io.gametown.api.entities;
 
-import io.gametown.api.api.model.Badge;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 
 /**
  * Created by Olivier Liechti on 26/07/17.
  */
 @Entity
-public class BadgeEntity implements Serializable {
+public class PointScaleStatusEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String name;
+    private int nbPoints;
 
-    public String getName() {
-        return name;
+    @OneToMany
+    private PointScaleEntity pointScale;
+
+    public int getNbPoints() {
+        return nbPoints;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNbPoints(int nbPoints) {
+        this.nbPoints = nbPoints;
     }
 
     public long getId() {
@@ -33,5 +34,4 @@ public class BadgeEntity implements Serializable {
     public void setId(long id) {
         this.id = id;
     }
-
 }

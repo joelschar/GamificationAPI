@@ -60,7 +60,7 @@ public class UserApiController implements UsersApi {
                 .buildAndExpand(newUserEntity.getId()).toUri();
 
         return ResponseEntity.created(location).build();
-    }*/
+    }
 
     @Override
     public ResponseEntity<User> getUser(String apiKey, Integer userId) {
@@ -89,6 +89,7 @@ public class UserApiController implements UsersApi {
         }
         return ResponseEntity.ok(users);
     }
+    */
 
     private UserEntity toUserEntity(User user) {
         UserEntity entity = new UserEntity();
@@ -116,5 +117,20 @@ public class UserApiController implements UsersApi {
         Badge badge = new Badge();
         badge.setName(entity.getName());
         return badge;
+    }
+
+    @Override
+    public ResponseEntity<User> getUser(String apiKey, Integer userId) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<List<Badge>> getUserBadges(String apiKey, Integer userId) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<List<User>> getUsers(String apiKey) {
+        return null;
     }
 }

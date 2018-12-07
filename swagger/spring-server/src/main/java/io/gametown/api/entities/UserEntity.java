@@ -20,6 +20,12 @@ public class UserEntity implements Serializable {
     private String lastname;
     private String email;
 
+    @ManyToMany
+    private List<BadgeStatusEntity> badgesStatus;
+
+    @ManyToMany
+    private List<PointScaleStatusEntity> pointScalesStatus;
+
     public long getId() {
         return id;
     }
@@ -46,5 +52,21 @@ public class UserEntity implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<PointScaleStatusEntity> getPointScalesStatus() {
+        return pointScalesStatus;
+    }
+
+    public void setPointScalesStatus(List<PointScaleStatusEntity> pointScalesStatus) {
+        this.pointScalesStatus = pointScalesStatus;
+    }
+
+    public List<BadgeStatusEntity> getBadgesStatus() {
+        return badgesStatus;
+    }
+
+    public void setBadgesStatus(List<BadgeStatusEntity> badgesStatus) {
+        this.badgesStatus = badgesStatus;
     }
 }

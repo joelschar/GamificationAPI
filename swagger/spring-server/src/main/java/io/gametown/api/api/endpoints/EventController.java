@@ -22,11 +22,6 @@ public class EventController implements EventsApi {
     @Autowired
     EventRepository eventRepository;
 
-    @Override
-    public ResponseEntity<Event> newEvent(String apiKey, Event event) {
-        return null;
-    }
-
     private EventEntity toEventEntity(Event event) {
         EventEntity entity = new EventEntity();
         entity.setEvent(event.getEvent());
@@ -37,5 +32,10 @@ public class EventController implements EventsApi {
         Event event = new Event();
         event.setEvent(entity.getEvent());
         return event;
+    }
+
+    @Override
+    public ResponseEntity<Event> newEvent(String apiKey, Event event) {
+        return null;
     }
 }

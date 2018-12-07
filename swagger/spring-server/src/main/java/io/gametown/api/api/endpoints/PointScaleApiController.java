@@ -36,6 +36,7 @@ public class PointScaleApiController implements PointScalesApi {
     @Autowired
     ApplicationRepository applicationRepository;
 
+    /*
     @Override
     public ResponseEntity<PointScale> createPointScale(String apiKey, PointScale pointScale) {
         PointScaleEntity newPointScaleEntity = toPointScaleEntity(pointScale);
@@ -51,6 +52,23 @@ public class PointScaleApiController implements PointScalesApi {
                 .buildAndExpand(newPointScaleEntity.getId()).toUri();
 
         return ResponseEntity.created(location).build();
+    }*/
+
+    private PointScaleEntity toPointScaleEntity(PointScale pointScale) {
+        PointScaleEntity entity = new PointScaleEntity();
+        entity.setName(pointScale.getName());
+        return entity;
+    }
+
+    private PointScale toPointScale(PointScaleEntity entity) {
+        PointScale pointScale = new PointScale();
+        pointScale.setName(entity.getName());
+        return pointScale;
+    }
+
+    @Override
+    public ResponseEntity<PointScale> createPointScale(String apiKey, PointScale pointScale) {
+        return null;
     }
 
     @Override
@@ -66,17 +84,5 @@ public class PointScaleApiController implements PointScalesApi {
     @Override
     public ResponseEntity<PointScale> updatePointScale(String apiKey, PointScale badge) {
         return null;
-    }
-
-    private PointScaleEntity toPointScaleEntity(PointScale pointScale) {
-        PointScaleEntity entity = new PointScaleEntity();
-        entity.setName(pointScale.getName());
-        return entity;
-    }
-
-    private PointScale toPointScale(PointScaleEntity entity) {
-        PointScale pointScale = new PointScale();
-        pointScale.setName(entity.getName());
-        return pointScale;
     }
 }

@@ -25,6 +25,21 @@ public class RuleApiController implements RulesApi {
     @Autowired
     RuleRepository ruleRepository;
 
+
+    private RuleEntity toRuleEntity(Rule rule) {
+        RuleEntity entity = new RuleEntity();
+        entity.setKondition(rule.getCondition());
+        entity.setValue(rule.getValue());
+        return entity;
+    }
+
+    private Rule toRule(RuleEntity entity) {
+        Rule rule = new Rule();
+        rule.setCondition(entity.getKondition());
+        rule.setValue(entity.getValue());
+        return rule;
+    }
+
     @Override
     public ResponseEntity<Rule> createRule(String apiKey, Rule pointScale) {
         return null;
@@ -44,19 +59,4 @@ public class RuleApiController implements RulesApi {
     public ResponseEntity<Rule> updateRule(String apiKey, Rule badge) {
         return null;
     }
-
-    private RuleEntity toRuleEntity(Rule rule) {
-        RuleEntity entity = new RuleEntity();
-        entity.setKondition(rule.getCondition());
-        entity.setValue(rule.getValue());
-        return entity;
-    }
-
-    private Rule toRule(RuleEntity entity) {
-        Rule rule = new Rule();
-        rule.setCondition(entity.getKondition());
-        rule.setValue(entity.getValue());
-        return rule;
-    }
-
 }
