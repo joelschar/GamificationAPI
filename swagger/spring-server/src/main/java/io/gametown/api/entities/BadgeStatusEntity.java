@@ -16,7 +16,6 @@ public class BadgeStatusEntity implements Serializable {
 
     private Date date;
 
-    @OneToMany
     private BadgeEntity badge;
 
     public long getId() {

@@ -98,7 +98,7 @@ public class RuleApiController implements RulesApi {
 
         RuleEntity ruleTemp = toRuleEntity(rule);
 
-        if(applicationEntity.getRules().contains(ruleTemp)) {
+        if(rules.contains(ruleTemp)) {
             RuleEntity ruleToUpdate = ruleRepository.findById((long)rule.getId()).orElseThrow(() -> new RuntimeException());
             ruleToUpdate.setValue(ruleTemp.getValue());
             ruleToUpdate.setKondition(ruleTemp.getKondition());
