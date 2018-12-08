@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,16 +71,41 @@ public class BadgeApiController implements BadgesApi {
 
     @Override
     public ResponseEntity<Void> deleteBadge(String apiKey, Badge badge) {
-        return null;
+        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        if(applicationEntity.getBadges().contains(toBadgeEntity(badge))) {
+
+            BadgeEntity badgeToDelete = badgeRepository.findById(badge.getId()).orElseThrow(() -> new RuntimeException());
+            badgeToDelete.setActive(false);
+            badgeRepository.save(badgeToDelete);
+        }
+
+        return ResponseEntity.status(204).build();
     }
 
     @Override
     public ResponseEntity<List<Badge>> getBadges(String apiKey) {
-        return null;
+        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
+
+        List<Badge> badges = new ArrayList<>();
+
+        for (BadgeEntity badgeEntity: badgesEntity ) {
+            if(badgeEntity.isActive())
+                badges.add(toBadge(badgeEntity));
+        }
+
+        return ResponseEntity.ok(badges);
     }
 
     @Override
     public ResponseEntity<Badge> updateBadge(String apiKey, Badge badge) {
-        return null;
+        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
+        int indexOfBadge = badgesEntity.indexOf(toBadgeEntity(badge));
+        badgesEntity.get(indexOfBadge).setName(badge.getName());
+        applicationEntity.setBadges(badgesEntity);
+        applicationRepository.save(applicationEntity);
+
+        return ResponseEntity.status(204).build();
     }
 }
