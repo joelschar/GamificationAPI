@@ -3,8 +3,11 @@ package io.gametown.api.api.endpoints;
 import io.gametown.api.api.UsersApi;
 import io.gametown.api.api.model.Badge;
 import io.gametown.api.api.model.User;
+import io.gametown.api.entities.ApplicationEntity;
 import io.gametown.api.entities.BadgeEntity;
+import io.gametown.api.entities.BadgeStatusEntity;
 import io.gametown.api.entities.UserEntity;
+import io.gametown.api.repositories.ApplicationRepository;
 import io.gametown.api.repositories.BadgeRepository;
 import io.gametown.api.repositories.UserRepository;
 import io.swagger.annotations.ApiParam;
@@ -26,8 +29,12 @@ public class UserApiController implements UsersApi {
 
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     BadgeRepository badgeRepository;
+
+    @Autowired
+    ApplicationRepository applicationRepository;
 
     /*
     @Override
@@ -121,16 +128,45 @@ public class UserApiController implements UsersApi {
 
     @Override
     public ResponseEntity<User> getUser(String apiKey, Integer userId) {
-        return null;
+        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        List<UserEntity> usersEntity = applicationEntity.getUsers();
+
+        for (UserEntity userEntity: usersEntity ) {
+            if(userEntity.getId() == userId){
+                return ResponseEntity.ok(toUser(userEntity));
+            }
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @Override
     public ResponseEntity<List<Badge>> getUserBadges(String apiKey, Integer userId) {
-        return null;
+        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        List<UserEntity> usersEntity = applicationEntity.getUsers();
+
+        List<Badge> badges = new ArrayList<>();
+
+        for (UserEntity userEntity: usersEntity ) {
+            if(userEntity.getId() == userId){
+                List<BadgeStatusEntity> badgesStatusEntity = userEntity.getBadgesStatus();
+                for (BadgeStatusEntity badgeStatusEntity : badgesStatusEntity){
+                    badges.add(toBadge(badgeStatusEntity.getBadge()));
+                }
+                return  ResponseEntity.ok(badges);
+            }
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @Override
     public ResponseEntity<List<User>> getUsers(String apiKey) {
-        return null;
+        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        List<UserEntity> usersEntity = applicationEntity.getUsers();
+
+        List<User> users = new ArrayList<>();
+        for (UserEntity userEntity : usersEntity) {
+            users.add(toUser(userEntity));
+        }
+        return  ResponseEntity.ok(users);
     }
 }

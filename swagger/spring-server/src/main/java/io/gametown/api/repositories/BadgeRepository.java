@@ -7,6 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * Created by Olivier Liechti on 26/07/17.
  */
-public interface BadgeRepository extends CrudRepository<BadgeEntity, Long>{
+public interface BadgeRepository extends CrudRepository<BadgeEntity, Integer>{
 
 }
