@@ -1,15 +1,10 @@
 package io.gametown.api.api.endpoints;
 
-import com.sun.security.ntlm.Server;
-import io.gametown.api.api.PointScalesApi;
 import io.gametown.api.api.RulesApi;
-import io.gametown.api.api.model.PointScale;
 import io.gametown.api.api.model.Rule;
 import io.gametown.api.entities.ApplicationEntity;
-import io.gametown.api.entities.PointScaleEntity;
 import io.gametown.api.entities.RuleEntity;
 import io.gametown.api.repositories.ApplicationRepository;
-import io.gametown.api.repositories.PointScaleRepository;
 import io.gametown.api.repositories.RuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -72,17 +67,12 @@ public class RuleApiController implements RulesApi {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<RuleEntity> rules = applicationEntity.getRules();
 
-        RuleEntity ruleForUpdate = toRuleEntity(rule);
-        String valueRules = ruleForUpdate.getValue();
-
-            for (RuleEntity ruleEntity : rules) {
-                if(valueRules.equals(ruleEntity.getValue())) {
-                    ruleEntity.setIsActive(false);
-                }
-            }
-
-      // TODO Check other possibilities to make it good maybe preferable to change return type
-        return (ResponseEntity<Void>) ResponseEntity.accepted();
+        if(applicationEntity.getRules().contains(toRuleEntity(rule))) {
+            RuleEntity ruleToDelete = ruleRepository.findById((long)rule.getId()).orElseThrow(() -> new RuntimeException());
+            ruleToDelete.setActive(false);
+            ruleRepository.save(ruleToDelete);
+        }
+        return ResponseEntity.status(204).build();
     }
 
     @Override
@@ -93,7 +83,7 @@ public class RuleApiController implements RulesApi {
         List<Rule> ruleList = new ArrayList<>();
 
         for (RuleEntity ruleEntity : rules) {
-            if (ruleEntity.getIsActive()) {
+            if (ruleEntity.isActive()) {
                 ruleList.add(toRule(ruleEntity));
             }
         }
@@ -106,18 +96,16 @@ public class RuleApiController implements RulesApi {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<RuleEntity> rules = applicationEntity.getRules();
 
-        RuleEntity ruleForUpdate = toRuleEntity(rule);
-        String valueRules = ruleForUpdate.getValue();
+        RuleEntity ruleTemp = toRuleEntity(rule);
 
-        for (RuleEntity ruleEntity : rules) {
-            if(valueRules.equals(ruleEntity.getValue())) {
-              ruleEntity.setKondition(ruleForUpdate.getKondition());
-              ruleEntity.setIsActive(true);
-              return ResponseEntity.ok(toRule(ruleEntity));
-            }
+        if(applicationEntity.getRules().contains(ruleTemp)) {
+            RuleEntity ruleToUpdate = ruleRepository.findById((long)rule.getId()).orElseThrow(() -> new RuntimeException());
+            ruleToUpdate.setValue(ruleTemp.getValue());
+            ruleToUpdate.setKondition(ruleTemp.getKondition());
+            ruleToUpdate.setActive(true);
+            ruleRepository.save(ruleToUpdate);
         }
-        // Todo check how to setup no rules or don't know
-        // return ResponseEntity.notFound(rule);
-        return null;
+
+        return ResponseEntity.status(204).build();
     }
 }

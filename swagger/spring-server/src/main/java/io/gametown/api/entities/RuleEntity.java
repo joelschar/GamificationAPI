@@ -46,11 +46,11 @@ public class RuleEntity implements Serializable {
         this.kondition = kondition;
     }
 
-    public boolean getIsActive() {
+    public boolean isActive() {
         return isActive;
     }
 
-    public void setIsActive(boolean isActive) {
+    public void setActive(boolean isActive) {
         this.isActive = isActive;
     }
 }
