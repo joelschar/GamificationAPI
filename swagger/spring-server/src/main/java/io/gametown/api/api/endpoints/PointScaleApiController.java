@@ -68,21 +68,61 @@ public class PointScaleApiController implements PointScalesApi {
 
     @Override
     public ResponseEntity<PointScale> createPointScale(String apiKey, PointScale pointScale) {
-        return null;
+        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        List<PointScaleEntity> pointScales = applicationEntity.getPointScales();
+
+        // Create the PointScale
+        PointScaleEntity newPointScaleEntitiy = toPointScaleEntity(pointScale);
+        pointScaleRepository.save(newPointScaleEntitiy);
+        Long id = newPointScaleEntitiy.getId();
+
+        pointScales.add(newPointScaleEntitiy);
+        applicationEntity.setPointScales(pointScales);
+        applicationRepository.save(applicationEntity);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(newPointScaleEntitiy.getId()).toUri();
+
+        return ResponseEntity.created(location).build();
     }
 
     @Override
-    public ResponseEntity<Void> deletePointScale(String apiKey, PointScale badge) {
-        return null;
+    public ResponseEntity<Void> deletePointScale(String apiKey, PointScale pointScale) {
+        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+
+        if(applicationEntity.getBadges().contains(toPointScaleEntity(pointScale))){
+
+            PointScaleEntity PointScaleEntitiyToDelete = pointScaleRepository.findById(pointScale.getId()).orElseThrow(() -> new RuntimeException());
+            PointScaleEntitiyToDelete.setActive(false);
+        }
+
+        return ResponseEntity.status(204).build();
     }
 
     @Override
     public ResponseEntity<List<PointScale>> getPointScales(String apiKey) {
-        return null;
+        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        List<PointScaleEntity> pointScales = applicationEntity.getPointScales();
+
+        List<PointScale> pointScaleList = new ArrayList<>();
+        for(PointScaleEntity pointScaleEntity : pointScales){
+            if(pointScaleEntity.isActive())
+                pointScaleList.add(toPointScale(pointScaleEntity));
+        }
+
+        return ResponseEntity.ok(pointScaleList);
     }
 
     @Override
-    public ResponseEntity<PointScale> updatePointScale(String apiKey, PointScale badge) {
-        return null;
+    public ResponseEntity<PointScale> updatePointScale(String apiKey, PointScale pointScale) {
+        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        List<PointScaleEntity> pointScaleEntity = applicationEntity.getPointScales();
+        int indexOfBadge = pointScaleEntity.indexOf(toPointScaleEntity(pointScale));
+        pointScaleEntity.get(indexOfBadge).setName(pointScale.getName());
+        applicationEntity.setPointScales(pointScaleEntity);
+        applicationRepository.save(applicationEntity);
+
+        return ResponseEntity.status(204).build();
     }
 }
