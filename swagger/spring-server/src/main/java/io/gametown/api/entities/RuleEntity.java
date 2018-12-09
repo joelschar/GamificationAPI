@@ -20,6 +20,7 @@ public class RuleEntity implements Serializable {
 
     private String value;
     private String kondition;
+    private boolean isActive;
     
     public long getId() {
         return id;
@@ -43,5 +44,13 @@ public class RuleEntity implements Serializable {
 
     public void setKondition(String kondition) {
         this.kondition = kondition;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 }

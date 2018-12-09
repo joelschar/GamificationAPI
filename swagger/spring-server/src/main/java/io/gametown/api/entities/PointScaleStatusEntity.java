@@ -16,7 +16,6 @@ public class PointScaleStatusEntity implements Serializable {
 
     private int nbPoints;
 
-    @OneToMany
     private PointScaleEntity pointScale;
 
     public int getNbPoints() {

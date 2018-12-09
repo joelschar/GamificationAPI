@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Olivier Liechti on 26/07/17.
@@ -18,6 +19,12 @@ public class EventEntity implements Serializable {
 
     private String event;
 
+    private UserEntity userEntity;
+
+    private String description;
+
+    //private List<String> properties;
+
     public long getId() {
         return id;
     }
@@ -28,5 +35,21 @@ public class EventEntity implements Serializable {
 
     public void setEvent(String event) {
         this.event = event;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 }
