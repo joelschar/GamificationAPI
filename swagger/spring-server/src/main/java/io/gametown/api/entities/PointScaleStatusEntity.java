@@ -2,6 +2,7 @@ package io.gametown.api.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -13,6 +14,9 @@ public class PointScaleStatusEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "REGISTRATION_TIMESTAMP", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp registrationTimestamp;
 
     private int nbPoints;
 
@@ -32,5 +36,13 @@ public class PointScaleStatusEntity implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Timestamp getRegistrationTimestamp() {
+        return registrationTimestamp;
+    }
+
+    public void setRegistrationTimestamp(Timestamp registrationTimestamp) {
+        this.registrationTimestamp = registrationTimestamp;
     }
 }

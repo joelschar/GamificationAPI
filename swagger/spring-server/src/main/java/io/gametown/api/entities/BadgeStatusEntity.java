@@ -2,7 +2,7 @@ package io.gametown.api.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * Created by Olivier Liechti on 26/07/17.
@@ -14,7 +14,8 @@ public class BadgeStatusEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private Date date;
+    @Column(name = "REGISTRATION_TIMESTAMP", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp registrationTimestamp;
 
     private BadgeEntity badge;
 
@@ -26,12 +27,12 @@ public class BadgeStatusEntity implements Serializable {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Timestamp getRegistrationTimestamp() {
+        return registrationTimestamp;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setRegistrationTimestamp(Timestamp registrationTimestamp) {
+        this.registrationTimestamp = registrationTimestamp;
     }
 
     public BadgeEntity getBadge() {
