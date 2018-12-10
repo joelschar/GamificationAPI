@@ -19,9 +19,13 @@ public class RuleEntity implements Serializable {
     private long id;
 
     private String value;
-    private String kondition;
     private boolean isActive;
-    
+
+    private BadgeEntity badgeEntity;
+    private PointScaleEntity pointScaleEntity;
+    private int nbrPoint;
+
+
     public long getId() {
         return id;
     }
@@ -38,19 +42,35 @@ public class RuleEntity implements Serializable {
         this.value = value;
     }
 
-    public String getKondition() {
-        return kondition;
-    }
-
-    public void setKondition(String kondition) {
-        this.kondition = kondition;
-    }
-
     public boolean isActive() {
         return isActive;
     }
 
     public void setActive(boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public PointScaleEntity getPointScaleEntity() {
+        return pointScaleEntity;
+    }
+
+    public void setPointScaleEntity(PointScaleEntity pointScaleEntity) {
+        this.pointScaleEntity = pointScaleEntity;
+    }
+
+    public int getNbrPoint() {
+        return nbrPoint;
+    }
+
+    public void setNbrPoint(int nbrPoint) {
+        this.nbrPoint = nbrPoint;
+    }
+
+    public BadgeEntity getBadgeEntity() {
+        return badgeEntity;
+    }
+
+    public void setBadgeEntity(BadgeEntity badgeEntity) {
+        this.badgeEntity = badgeEntity;
     }
 }

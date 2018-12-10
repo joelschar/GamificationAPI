@@ -26,35 +26,6 @@ public class EventController implements EventsApi {
     @Autowired
     ApplicationRepository applicationRepository;
 
-
-    private EventEntity toEventEntity(Event event) {
-        EventEntity entity = new EventEntity();
-        entity.setEvent(event.getEvent());
-        return entity;
-    }
-
-    private Event toEvent(EventEntity entity) {
-        Event event = new Event();
-        event.setEvent(entity.getEvent());
-        return event;
-    }
-
-    private UserEntity toUserEntity(User user) {
-        UserEntity entity = new UserEntity();
-        entity.setFirstname(user.getFirstname());
-        entity.setLastname(user.getLastname());
-        entity.setEmail(user.getEmail());
-        return entity;
-    }
-
-    private User toUser(UserEntity entity) {
-        User user = new User();
-        user.setFirstname(entity.getFirstname());
-        user.setLastname(entity.getLastname());
-        user.setEmail(entity.getEmail());
-        return user;
-    }
-
     @Override
     public ResponseEntity<Event> newEvent(String apiKey, Event event) {
         /*

@@ -363,8 +363,12 @@ definitions:
         type: integer
       value:
         type: string
-      condition:
-        type: string
+      badge:
+        $ref: '#/definitions/Badge'
+      pointScale:
+        $ref: '#/definitions/PointScale'
+      nbrPoints:
+        type: integer
   Event:
     type: object
     properties:

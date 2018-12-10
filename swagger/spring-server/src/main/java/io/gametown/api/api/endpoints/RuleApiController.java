@@ -1,8 +1,13 @@
 package io.gametown.api.api.endpoints;
 
 import io.gametown.api.api.RulesApi;
+import io.gametown.api.api.model.Badge;
+import io.gametown.api.api.model.PointScale;
 import io.gametown.api.api.model.Rule;
+import io.gametown.api.api.service.ModelUtils;
 import io.gametown.api.entities.ApplicationEntity;
+import io.gametown.api.entities.BadgeEntity;
+import io.gametown.api.entities.PointScaleEntity;
 import io.gametown.api.entities.RuleEntity;
 import io.gametown.api.repositories.ApplicationRepository;
 import io.gametown.api.repositories.RuleRepository;
@@ -26,40 +31,12 @@ public class RuleApiController implements RulesApi {
     @Autowired
     ApplicationRepository applicationRepository;
 
-
-    private RuleEntity toRuleEntity(Rule rule) {
-        RuleEntity entity = new RuleEntity();
-        entity.setKondition(rule.getCondition());
-        entity.setValue(rule.getValue());
-        return entity;
-    }
-
-    private Rule toRule(RuleEntity entity) {
-        Rule rule = new Rule();
-        rule.setCondition(entity.getKondition());
-        rule.setValue(entity.getValue());
-        return rule;
-    }
+    @Autowired
+    ModelUtils tools;
 
     @Override
-    public ResponseEntity<Rule> createRule(String apiKey, Rule rule) {
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<RuleEntity> rules = applicationEntity.getRules();
-
-        // Create Rule
-        RuleEntity newRuleEntity = toRuleEntity(rule);
-        ruleRepository.save(newRuleEntity);
-        Long id = newRuleEntity.getId();
-
-        rules.add(newRuleEntity);
-        applicationEntity.setRules(rules);
-        applicationRepository.save(applicationEntity);
-
-        URI location = ServletUriComponentsBuilder
-            .fromCurrentRequest().path("/{id}")
-            .buildAndExpand(newRuleEntity.getId()).toUri();
-
-        return ResponseEntity.created(location).build();
+    public ResponseEntity<Rule> createRule(String apiKey, Rule pointScale) {
+        return null;
     }
 
     @Override
@@ -67,7 +44,7 @@ public class RuleApiController implements RulesApi {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<RuleEntity> rules = applicationEntity.getRules();
 
-        if(applicationEntity.getRules().contains(toRuleEntity(rule))) {
+        if(applicationEntity.getRules().contains(tools.toRuleEntity(rule))) {
             RuleEntity ruleToDelete = ruleRepository.findById((long)rule.getId()).orElseThrow(() -> new RuntimeException());
             ruleToDelete.setActive(false);
             ruleRepository.save(ruleToDelete);
@@ -84,7 +61,7 @@ public class RuleApiController implements RulesApi {
 
         for (RuleEntity ruleEntity : rules) {
             if (ruleEntity.isActive()) {
-                ruleList.add(toRule(ruleEntity));
+                ruleList.add(tools.toRule(ruleEntity));
             }
         }
 
@@ -96,12 +73,11 @@ public class RuleApiController implements RulesApi {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<RuleEntity> rules = applicationEntity.getRules();
 
-        RuleEntity ruleTemp = toRuleEntity(rule);
+        RuleEntity ruleTemp = tools.toRuleEntity(rule);
 
         if(rules.contains(ruleTemp)) {
             RuleEntity ruleToUpdate = ruleRepository.findById((long)rule.getId()).orElseThrow(() -> new RuntimeException());
             ruleToUpdate.setValue(ruleTemp.getValue());
-            ruleToUpdate.setKondition(ruleTemp.getKondition());
             ruleToUpdate.setActive(true);
             ruleRepository.save(ruleToUpdate);
         }

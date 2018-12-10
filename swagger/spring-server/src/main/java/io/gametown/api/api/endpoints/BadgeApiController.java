@@ -5,6 +5,7 @@ import io.gametown.api.api.RulesApi;
 import io.gametown.api.api.model.Badge;
 import io.gametown.api.api.model.PointScale;
 import io.gametown.api.api.model.Rule;
+import io.gametown.api.api.service.ModelUtils;
 import io.gametown.api.entities.ApplicationEntity;
 import io.gametown.api.entities.BadgeEntity;
 import io.gametown.api.entities.PointScaleEntity;
@@ -35,17 +36,8 @@ public class BadgeApiController implements BadgesApi {
     @Autowired
     ApplicationRepository applicationRepository;
 
-    private BadgeEntity toBadgeEntity(Badge badge) {
-        BadgeEntity entity = new BadgeEntity();
-        entity.setName(badge.getName());
-        return entity;
-    }
-
-    private Badge toBadge(BadgeEntity entity) {
-        Badge badge = new Badge();
-        badge.setName(entity.getName());
-        return badge;
-    }
+    @Autowired
+    ModelUtils tools;
 
     @Override
     public ResponseEntity<Badge> createBadge(String apiKey, Badge badge) {
@@ -54,7 +46,7 @@ public class BadgeApiController implements BadgesApi {
         List<BadgeEntity> badges = applicationEntity.getBadges();
 
         // Create the Badge
-        BadgeEntity newBadgeEntity = toBadgeEntity(badge);
+        BadgeEntity newBadgeEntity = tools.toBadgeEntity(badge);
         badgeRepository.save(newBadgeEntity);
         Long id = newBadgeEntity.getId();
 
@@ -72,7 +64,7 @@ public class BadgeApiController implements BadgesApi {
     @Override
     public ResponseEntity<Void> deleteBadge(String apiKey, Badge badge) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        if(applicationEntity.getBadges().contains(toBadgeEntity(badge))) {
+        if(applicationEntity.getBadges().contains(tools.toBadgeEntity(badge))) {
 
             BadgeEntity badgeToDelete = badgeRepository.findById(badge.getId()).orElseThrow(() -> new RuntimeException());
             badgeToDelete.setActive(false);
@@ -91,7 +83,7 @@ public class BadgeApiController implements BadgesApi {
 
         for (BadgeEntity badgeEntity: badgesEntity ) {
             if(badgeEntity.isActive())
-                badges.add(toBadge(badgeEntity));
+                badges.add(tools.toBadge(badgeEntity));
         }
 
         return ResponseEntity.ok(badges);
@@ -101,7 +93,7 @@ public class BadgeApiController implements BadgesApi {
     public ResponseEntity<Badge> updateBadge(String apiKey, Badge badge) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
-        int indexOfBadge = badgesEntity.indexOf(toBadgeEntity(badge));
+        int indexOfBadge = badgesEntity.indexOf(tools.toBadgeEntity(badge));
         badgesEntity.get(indexOfBadge).setName(badge.getName());
         applicationEntity.setBadges(badgesEntity);
         applicationRepository.save(applicationEntity);

@@ -5,6 +5,7 @@ import io.gametown.api.api.UsersApi;
 import io.gametown.api.api.model.Badge;
 import io.gametown.api.api.model.PointScale;
 import io.gametown.api.api.model.User;
+import io.gametown.api.api.service.ModelUtils;
 import io.gametown.api.entities.ApplicationEntity;
 import io.gametown.api.entities.BadgeEntity;
 import io.gametown.api.entities.PointScaleEntity;
@@ -36,35 +37,9 @@ public class PointScaleApiController implements PointScalesApi {
     @Autowired
     ApplicationRepository applicationRepository;
 
-    /*
-    @Override
-    public ResponseEntity<PointScale> createPointScale(String apiKey, PointScale pointScale) {
-        PointScaleEntity newPointScaleEntity = toPointScaleEntity(pointScale);
-        pointScaleRepository.save(newPointScaleEntity);
-        Long id = newPointScaleEntity.getId();
+    @Autowired
+    ModelUtils tools;
 
-        // TODO : Ajouter à l'application
-        //applicationRepository.findOne(apiKey);
-        //ApplicationEntity myApplicationEntity = applicationRepository.findOne(MON_FUCKING_ID);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().path("/{id}")
-                .buildAndExpand(newPointScaleEntity.getId()).toUri();
-
-        return ResponseEntity.created(location).build();
-    }*/
-
-    private PointScaleEntity toPointScaleEntity(PointScale pointScale) {
-        PointScaleEntity entity = new PointScaleEntity();
-        entity.setName(pointScale.getName());
-        return entity;
-    }
-
-    private PointScale toPointScale(PointScaleEntity entity) {
-        PointScale pointScale = new PointScale();
-        pointScale.setName(entity.getName());
-        return pointScale;
-    }
 
     @Override
     public ResponseEntity<PointScale> createPointScale(String apiKey, PointScale pointScale) {
@@ -72,7 +47,7 @@ public class PointScaleApiController implements PointScalesApi {
         List<PointScaleEntity> pointScales = applicationEntity.getPointScales();
 
         // Create the PointScale
-        PointScaleEntity newPointScaleEntitiy = toPointScaleEntity(pointScale);
+        PointScaleEntity newPointScaleEntitiy = tools.toPointScaleEntity(pointScale);
         pointScaleRepository.save(newPointScaleEntitiy);
         Long id = newPointScaleEntitiy.getId();
 
@@ -91,7 +66,7 @@ public class PointScaleApiController implements PointScalesApi {
     public ResponseEntity<Void> deletePointScale(String apiKey, PointScale pointScale) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
 
-        if(applicationEntity.getBadges().contains(toPointScaleEntity(pointScale))){
+        if(applicationEntity.getBadges().contains(tools.toPointScaleEntity(pointScale))){
 
             PointScaleEntity PointScaleEntitiyToDelete = pointScaleRepository.findById(pointScale.getId()).orElseThrow(() -> new RuntimeException());
             PointScaleEntitiyToDelete.setActive(false);
@@ -108,7 +83,7 @@ public class PointScaleApiController implements PointScalesApi {
         List<PointScale> pointScaleList = new ArrayList<>();
         for(PointScaleEntity pointScaleEntity : pointScales){
             if(pointScaleEntity.isActive())
-                pointScaleList.add(toPointScale(pointScaleEntity));
+                pointScaleList.add(tools.toPointScale(pointScaleEntity));
         }
 
         return ResponseEntity.ok(pointScaleList);
@@ -118,7 +93,7 @@ public class PointScaleApiController implements PointScalesApi {
     public ResponseEntity<PointScale> updatePointScale(String apiKey, PointScale pointScale) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<PointScaleEntity> pointScaleEntity = applicationEntity.getPointScales();
-        int indexOfBadge = pointScaleEntity.indexOf(toPointScaleEntity(pointScale));
+        int indexOfBadge = pointScaleEntity.indexOf(tools.toPointScaleEntity(pointScale));
         pointScaleEntity.get(indexOfBadge).setName(pointScale.getName());
         applicationEntity.setPointScales(pointScaleEntity);
         applicationRepository.save(applicationEntity);
