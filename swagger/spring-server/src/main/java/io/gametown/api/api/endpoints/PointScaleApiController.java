@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -42,7 +43,8 @@ public class PointScaleApiController implements PointScalesApi {
 
 
     @Override
-    public ResponseEntity<PointScale> createPointScale(String apiKey, PointScale pointScale) {
+    public ResponseEntity<PointScale> createPointScale(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
+                                                       @ApiParam(value = "" ,required=true ) @RequestBody PointScale pointScale) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<PointScaleEntity> pointScales = applicationEntity.getPointScales();
 
@@ -63,7 +65,10 @@ public class PointScaleApiController implements PointScalesApi {
     }
 
     @Override
-    public ResponseEntity<Void> deletePointScale(String apiKey, PointScale pointScale) {
+    public ResponseEntity<Void> deletePointScale(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
+                                                 @ApiParam(value = ""  ) @RequestBody PointScale badge) {
+        //TODO CORRIGER YAML Pointscale badge
+        /*
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
 
         if(applicationEntity.getBadges().contains(tools.toPointScaleEntity(pointScale))){
@@ -71,12 +76,13 @@ public class PointScaleApiController implements PointScalesApi {
             PointScaleEntity PointScaleEntitiyToDelete = pointScaleRepository.findById(pointScale.getId()).orElseThrow(() -> new RuntimeException());
             PointScaleEntitiyToDelete.setActive(false);
         }
-
+        */
         return ResponseEntity.status(204).build();
+
     }
 
     @Override
-    public ResponseEntity<List<PointScale>> getPointScales(String apiKey) {
+    public ResponseEntity<List<PointScale>> getPointScales(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<PointScaleEntity> pointScales = applicationEntity.getPointScales();
 
@@ -90,14 +96,17 @@ public class PointScaleApiController implements PointScalesApi {
     }
 
     @Override
-    public ResponseEntity<PointScale> updatePointScale(String apiKey, PointScale pointScale) {
+    public ResponseEntity<PointScale> updatePointScale(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
+                                                       @ApiParam(value = "" ,required=true ) @RequestBody PointScale badge) {
+        //TODO CORRIGER YAML Pointscale badge
+        /*
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<PointScaleEntity> pointScaleEntity = applicationEntity.getPointScales();
         int indexOfBadge = pointScaleEntity.indexOf(tools.toPointScaleEntity(pointScale));
         pointScaleEntity.get(indexOfBadge).setName(pointScale.getName());
         applicationEntity.setPointScales(pointScaleEntity);
         applicationRepository.save(applicationEntity);
-
+        */
         return ResponseEntity.status(204).build();
     }
 }

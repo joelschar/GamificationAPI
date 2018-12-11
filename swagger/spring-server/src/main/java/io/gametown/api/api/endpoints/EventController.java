@@ -9,9 +9,12 @@ import io.gametown.api.entities.*;
 import io.gametown.api.repositories.ApplicationRepository;
 import io.gametown.api.repositories.EventRepository;
 import io.gametown.api.repositories.PointScaleRepository;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -27,7 +30,8 @@ public class EventController implements EventsApi {
     ApplicationRepository applicationRepository;
 
     @Override
-    public ResponseEntity<Event> newEvent(String apiKey, Event event) {
+    public ResponseEntity<Event> newEvent(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
+                                          @ApiParam(value = "" ,required=true ) @RequestBody Event event) {
         /*
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         EventEntity eventEntity = toEventEntity(event);

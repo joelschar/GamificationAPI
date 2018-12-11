@@ -15,7 +15,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -41,7 +43,8 @@ public class UserApiController implements UsersApi {
     ModelUtils tools;
 
     @Override
-    public ResponseEntity<User> getUser(String apiKey, Integer userId) {
+    public ResponseEntity<User> getUser(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
+                                        @ApiParam(value = "",required=true ) @PathVariable("userId") Integer userId) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<UserEntity> usersEntity = applicationEntity.getUsers();
 
@@ -54,7 +57,8 @@ public class UserApiController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<List<Badge>> getUserBadges(String apiKey, Integer userId) {
+    public ResponseEntity<List<Badge>> getUserBadges(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
+                                                     @ApiParam(value = "",required=true ) @PathVariable("userId") Integer userId) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<UserEntity> usersEntity = applicationEntity.getUsers();
 
@@ -73,7 +77,7 @@ public class UserApiController implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<List<User>> getUsers(String apiKey) {
+    public ResponseEntity<List<User>> getUsers(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<UserEntity> usersEntity = applicationEntity.getUsers();
 

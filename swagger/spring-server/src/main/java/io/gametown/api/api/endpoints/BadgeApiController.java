@@ -14,9 +14,12 @@ import io.gametown.api.repositories.ApplicationRepository;
 import io.gametown.api.repositories.BadgeRepository;
 import io.gametown.api.repositories.BadgeStatusRepository;
 import io.gametown.api.repositories.PointScaleRepository;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
@@ -40,7 +43,8 @@ public class BadgeApiController implements BadgesApi {
     ModelUtils tools;
 
     @Override
-    public ResponseEntity<Badge> createBadge(String apiKey, Badge badge) {
+    public ResponseEntity<Badge> createBadge(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
+                                             @ApiParam(value = "" ,required=true ) @RequestBody Badge badge) {
 
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<BadgeEntity> badges = applicationEntity.getBadges();
@@ -62,7 +66,8 @@ public class BadgeApiController implements BadgesApi {
     }
 
     @Override
-    public ResponseEntity<Void> deleteBadge(String apiKey, Badge badge) {
+    public ResponseEntity<Void> deleteBadge(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
+                                            @ApiParam(value = ""  ) @RequestBody Badge badge) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         if(applicationEntity.getBadges().contains(tools.toBadgeEntity(badge))) {
 
@@ -75,7 +80,7 @@ public class BadgeApiController implements BadgesApi {
     }
 
     @Override
-    public ResponseEntity<List<Badge>> getBadges(String apiKey) {
+    public     ResponseEntity<List<Badge>> getBadges(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey){
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
 
@@ -90,7 +95,8 @@ public class BadgeApiController implements BadgesApi {
     }
 
     @Override
-    public ResponseEntity<Badge> updateBadge(String apiKey, Badge badge) {
+    public ResponseEntity<Badge> updateBadge(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
+                                             @ApiParam(value = "" ,required=true ) @RequestBody Badge badge) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
         int indexOfBadge = badgesEntity.indexOf(tools.toBadgeEntity(badge));
