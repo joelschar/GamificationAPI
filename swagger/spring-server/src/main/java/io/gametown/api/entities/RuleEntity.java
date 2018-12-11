@@ -14,6 +14,8 @@ import java.io.Serializable;
 @Entity
 public class RuleEntity implements Serializable {
 
+    public RuleEntity() { }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

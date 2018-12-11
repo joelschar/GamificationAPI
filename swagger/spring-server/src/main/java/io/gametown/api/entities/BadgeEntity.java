@@ -12,6 +12,8 @@ import java.util.List;
 @Entity
 public class BadgeEntity implements Serializable {
 
+    public BadgeEntity() {}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

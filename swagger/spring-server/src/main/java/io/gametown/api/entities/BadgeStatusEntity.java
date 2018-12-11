@@ -10,6 +10,8 @@ import java.sql.Timestamp;
 @Entity
 public class BadgeStatusEntity implements Serializable {
 
+    public BadgeStatusEntity() { }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

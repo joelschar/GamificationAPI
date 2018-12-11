@@ -10,6 +10,8 @@ import java.util.List;
 @Entity
 public class PointScaleEntity implements Serializable {
 
+    public PointScaleEntity() { }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

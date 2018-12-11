@@ -12,6 +12,8 @@ import java.util.List;
 @Entity
 public class UserEntity implements Serializable {
 
+    public UserEntity() { }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

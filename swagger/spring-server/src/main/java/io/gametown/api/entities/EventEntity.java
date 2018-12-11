@@ -13,6 +13,8 @@ import java.util.List;
 @Entity
 public class EventEntity implements Serializable {
 
+    public EventEntity() { }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
