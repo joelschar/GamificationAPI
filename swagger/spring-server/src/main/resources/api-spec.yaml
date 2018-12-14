@@ -129,7 +129,7 @@ paths:
           schema:
             $ref: '#/definitions/PointScale'
     patch:
-      description: update badge
+      description: update Point Scale
       operationId: updatePointScale
       consumes:
       - application/json
@@ -141,7 +141,7 @@ paths:
         required: true
         type: string
       - in: body
-        name: badge
+        name: pointScale
         required: true
         schema:
           $ref: '#/definitions/PointScale'
@@ -151,7 +151,7 @@ paths:
           schema:
             $ref: '#/definitions/PointScale'
     delete:
-      description: remove badge
+      description: remove Point Scale
       operationId: deletePointScale
       consumes:
       - application/json
@@ -161,7 +161,7 @@ paths:
         required: true
         type: string
       - in: body
-        name: badge
+        name: pointScale
         schema:
           $ref: '#/definitions/PointScale'
       responses:

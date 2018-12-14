@@ -16,6 +16,7 @@ import io.gametown.api.repositories.PointScaleRepository;
 import io.gametown.api.repositories.UserRepository;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,19 +67,19 @@ public class PointScaleApiController implements PointScalesApi {
 
     @Override
     public ResponseEntity<Void> deletePointScale(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
-                                                 @ApiParam(value = ""  ) @RequestBody PointScale badge) {
-        //TODO CORRIGER YAML Pointscale badge
-        /*
+                                                 @ApiParam(value = ""  ) @RequestBody PointScale pointScale) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-
-        if(applicationEntity.getBadges().contains(tools.toPointScaleEntity(pointScale))){
-
-            PointScaleEntity PointScaleEntitiyToDelete = pointScaleRepository.findById(pointScale.getId()).orElseThrow(() -> new RuntimeException());
-            PointScaleEntitiyToDelete.setActive(false);
+        List<PointScaleEntity> pointScalesEntity = applicationEntity.getPointScales();
+        for (PointScaleEntity pointScaleEntity: pointScalesEntity ) {
+            if(pointScaleEntity.getId() == pointScale.getId()){
+                PointScaleEntity pointScaleToDelete = pointScaleEntity;
+                pointScaleToDelete.setActive(false);
+                pointScaleRepository.save(pointScaleToDelete);
+                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            }
         }
-        */
-        return ResponseEntity.status(204).build();
 
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @Override
@@ -97,16 +98,19 @@ public class PointScaleApiController implements PointScalesApi {
 
     @Override
     public ResponseEntity<PointScale> updatePointScale(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
-                                                       @ApiParam(value = "" ,required=true ) @RequestBody PointScale badge) {
-        //TODO CORRIGER YAML Pointscale badge
-        /*
+                                                       @ApiParam(value = "" ,required=true ) @RequestBody PointScale pointScale) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<PointScaleEntity> pointScaleEntity = applicationEntity.getPointScales();
-        int indexOfBadge = pointScaleEntity.indexOf(tools.toPointScaleEntity(pointScale));
-        pointScaleEntity.get(indexOfBadge).setName(pointScale.getName());
-        applicationEntity.setPointScales(pointScaleEntity);
-        applicationRepository.save(applicationEntity);
-        */
-        return ResponseEntity.status(204).build();
+        List<PointScaleEntity> pointScalesEntity = applicationEntity.getPointScales();
+        for (PointScaleEntity pointScaleEntity: pointScalesEntity ) {
+            if(pointScaleEntity.getId() == pointScale.getId()){
+                PointScaleEntity pointScaleToUpdate = pointScaleEntity;
+                pointScaleToUpdate.setActive(true);
+                pointScaleToUpdate.setName(pointScale.getName());
+                pointScaleRepository.save(pointScaleToUpdate);
+                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }
