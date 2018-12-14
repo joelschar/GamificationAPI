@@ -33,6 +33,7 @@ public class ModelUtils {
 
     public Badge toBadge(BadgeEntity entity) {
         Badge badge = new Badge();
+        badge.setId((int) entity.getId());
         badge.setName(entity.getName());
         return badge;
     }

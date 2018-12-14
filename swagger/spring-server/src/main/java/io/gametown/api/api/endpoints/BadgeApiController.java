@@ -70,9 +70,11 @@ public class BadgeApiController implements BadgesApi {
     public ResponseEntity<Void> deleteBadge(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                             @ApiParam(value = ""  ) @RequestBody Badge badge) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        System.out.println("Runtime passSuccessfully");
+        //TODO erreur dans le if
         if(applicationEntity.getBadges().contains(tools.toBadgeEntity(badge))) {
-
             BadgeEntity badgeToDelete = badgeRepository.findById(badge.getId()).orElseThrow(() -> new RuntimeException());
+            System.out.println("Réussi");
             badgeToDelete.setActive(false);
             badgeRepository.save(badgeToDelete);
         }
