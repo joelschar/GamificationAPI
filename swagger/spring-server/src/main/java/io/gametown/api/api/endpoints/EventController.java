@@ -5,10 +5,9 @@ import io.gametown.api.api.EventsApi;
 import io.gametown.api.api.model.Badge;
 import io.gametown.api.api.model.Event;
 import io.gametown.api.api.model.User;
+import io.gametown.api.api.service.ModelUtils;
 import io.gametown.api.entities.*;
-import io.gametown.api.repositories.ApplicationRepository;
-import io.gametown.api.repositories.EventRepository;
-import io.gametown.api.repositories.PointScaleRepository;
+import io.gametown.api.repositories.*;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,20 +28,58 @@ public class EventController implements EventsApi {
     @Autowired
     ApplicationRepository applicationRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    BadgeStatusRepository badgeStatusRepository;
+
+    @Autowired
+    ModelUtils tools;
+
     @Override
     public ResponseEntity<Event> newEvent(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                           @ApiParam(value = "" ,required=true ) @RequestBody Event event) {
-        /*
+
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        EventEntity eventEntity = toEventEntity(event);
+        EventEntity eventEntity = tools.toEventEntity(event);
         eventRepository.save(eventEntity);
 
-        for ( RuleEntity ruleEntity: applicationEntity.getRules()) {
-            if(ruleEntity.getValue().equals(event.getEvent())){
-                ruleEntity.getKondition();
+        String ruleToCall = eventEntity.getEvent();
+        List<RuleEntity> rules = applicationEntity.getRules();
+        RuleEntity myRule = null;
+        for ( RuleEntity rule : rules ) {
+            if(rule.getValue().equals(ruleToCall)){
+                myRule = rule;
+                break;
             }
         }
-        */
-        return null;
+
+        if(myRule == null)
+            return null;
+
+        UserEntity myUser = eventEntity.getUserEntity();
+        BadgeEntity myBadge = myRule.getBadgeEntity();
+        if(myBadge != null){
+            BadgeStatusEntity badgeStatus = new BadgeStatusEntity();
+            badgeStatus.setBadge(myBadge);
+            List<BadgeStatusEntity> badgesStatus = myUser.getBadgesStatus();
+            badgesStatus.add(badgeStatus);
+            myUser.setBadgesStatus(badgesStatus);
+        }
+
+        PointScaleEntity myPointScale = myRule.getPointScaleEntity();
+        if(myPointScale != null){
+            PointScaleStatusEntity pointScaleStatus = new PointScaleStatusEntity();
+            pointScaleStatus.setPointScale(myPointScale);
+            pointScaleStatus.setNbPoints(myRule.getNbrPoint());
+            List<PointScaleStatusEntity> pointsScalesStatus = myUser.getPointScalesStatus();
+            pointsScalesStatus.add(pointScaleStatus);
+            myUser.setPointScalesStatus(pointsScalesStatus);
+        }
+
+        userRepository.save(myUser);
+
+        return ResponseEntity.status(200).build();
     }
 }

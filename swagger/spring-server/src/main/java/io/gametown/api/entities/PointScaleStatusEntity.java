@@ -45,4 +45,12 @@ public class PointScaleStatusEntity implements Serializable {
     public void setRegistrationTimestamp(Timestamp registrationTimestamp) {
         this.registrationTimestamp = registrationTimestamp;
     }
+
+    public PointScaleEntity getPointScale() {
+        return pointScale;
+    }
+
+    public void setPointScale(PointScaleEntity pointScale) {
+        this.pointScale = pointScale;
+    }
 }
