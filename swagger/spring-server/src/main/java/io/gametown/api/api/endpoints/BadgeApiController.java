@@ -76,13 +76,14 @@ public class BadgeApiController implements BadgesApi {
                 BadgeEntity badgeToDelete = badgeEntity;
                 badgeToDelete.setActive(false);
                 badgeRepository.save(badgeToDelete);
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @Override
-    public     ResponseEntity<List<Badge>> getBadges(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey){
+    public ResponseEntity<List<Badge>> getBadges(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey){
         System.out.println(apiKey);
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
@@ -102,11 +103,16 @@ public class BadgeApiController implements BadgesApi {
                                              @ApiParam(value = "" ,required=true ) @RequestBody Badge badge) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
-        int indexOfBadge = badgesEntity.indexOf(tools.toBadgeEntity(badge));
-        badgesEntity.get(indexOfBadge).setName(badge.getName());
-        applicationEntity.setBadges(badgesEntity);
-        applicationRepository.save(applicationEntity);
+        for (BadgeEntity badgeEntity: badgesEntity ) {
+            if(badgeEntity.getId() == badge.getId()){
+                BadgeEntity badgeToUpdate = badgeEntity;
+                badgeToUpdate.setActive(true);
+                badgeToUpdate.setName(badge.getName());
+                badgeRepository.save(badgeToUpdate);
+                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            }
+        }
 
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }
