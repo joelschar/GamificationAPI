@@ -1,11 +1,6 @@
 package io.gametown.api.entities;
 
-import io.swagger.annotations.ApiModelProperty;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -14,12 +9,15 @@ import java.io.Serializable;
 @Entity
 public class RuleEntity implements Serializable {
 
+    public RuleEntity() { }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String value;
-    private boolean isActive;
+    @Column(name = "ACTIVE", columnDefinition = "BIT DEFAULT 1")
+    private boolean active;
 
     private BadgeEntity badgeEntity;
     private PointScaleEntity pointScaleEntity;
@@ -43,11 +41,11 @@ public class RuleEntity implements Serializable {
     }
 
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public PointScaleEntity getPointScaleEntity() {

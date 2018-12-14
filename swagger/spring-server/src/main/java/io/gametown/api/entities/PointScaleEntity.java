@@ -10,12 +10,15 @@ import java.util.List;
 @Entity
 public class PointScaleEntity implements Serializable {
 
+    public PointScaleEntity() { }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
 
+    @Column(name = "ACTIVE", columnDefinition = "BIT DEFAULT 1")
     private boolean active;
 
     public long getId() {

@@ -64,3 +64,6 @@ fabric.properties
 # Added by joel
 .idea/workspace.xml
 swagger/full-project/.idea/workspace.xml
+swagger/full-project/.idea/compiler.xml
+swagger/spring-server/swagger-spring.iml
+

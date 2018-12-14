@@ -10,7 +10,9 @@ import java.util.List;
 @Entity
 public class ApplicationEntity implements Serializable {
 
-    ApplicationEntity(String apiKey){
+    public ApplicationEntity() {}
+
+    public ApplicationEntity(String apiKey){
         this.apiKey = apiKey;
     }
 

@@ -11,6 +11,8 @@ import java.util.Date;
 @Entity
 public class PointScaleStatusEntity implements Serializable {
 
+    public PointScaleStatusEntity() {}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

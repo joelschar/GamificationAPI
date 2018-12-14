@@ -12,12 +12,15 @@ import java.util.List;
 @Entity
 public class BadgeEntity implements Serializable {
 
+    public BadgeEntity() {}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
 
+    @Column(name = "ACTIVE", columnDefinition = "BIT DEFAULT 1")
     private boolean active;
 
     public String getName() {
