@@ -16,6 +16,7 @@ import io.gametown.api.repositories.BadgeStatusRepository;
 import io.gametown.api.repositories.PointScaleRepository;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -76,7 +77,7 @@ public class BadgeApiController implements BadgesApi {
             badgeRepository.save(badgeToDelete);
         }
 
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override

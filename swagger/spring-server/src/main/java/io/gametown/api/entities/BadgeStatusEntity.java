@@ -16,7 +16,7 @@ public class BadgeStatusEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "REGISTRATION_TIMESTAMP", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "REGISTRATION_TIMESTAMP", insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp registrationTimestamp;
 
     private BadgeEntity badge;
@@ -31,10 +31,6 @@ public class BadgeStatusEntity implements Serializable {
 
     public Timestamp getRegistrationTimestamp() {
         return registrationTimestamp;
-    }
-
-    public void setRegistrationTimestamp(Timestamp registrationTimestamp) {
-        this.registrationTimestamp = registrationTimestamp;
     }
 
     public BadgeEntity getBadge() {

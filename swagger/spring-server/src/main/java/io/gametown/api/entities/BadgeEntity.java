@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 public class BadgeEntity implements Serializable {
 
-    public BadgeEntity() {}
+    public BadgeEntity() { }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class BadgeEntity implements Serializable {
 
     private String name;
 
-    @Column(name = "ACTIVE", columnDefinition = "BIT DEFAULT 1")
+    @Column(name = "ACTIVE", nullable = false, insertable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean active;
 
     public String getName() {

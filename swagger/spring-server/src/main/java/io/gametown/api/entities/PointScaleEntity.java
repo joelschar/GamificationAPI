@@ -18,7 +18,7 @@ public class PointScaleEntity implements Serializable {
 
     private String name;
 
-    @Column(name = "ACTIVE", columnDefinition = "BIT DEFAULT 1")
+    @Column(name = "ACTIVE", nullable = false, insertable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean active;
 
     public long getId() {
