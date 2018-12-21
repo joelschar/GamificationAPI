@@ -22,6 +22,9 @@ public class UserEntity implements Serializable {
     private String lastname;
     private String email;
 
+    @Column(name = "ACTIVE", nullable = false, insertable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean active;
+
     @ManyToMany
     private List<BadgeStatusEntity> badgesStatus;
 
@@ -70,5 +73,13 @@ public class UserEntity implements Serializable {
 
     public void setBadgesStatus(List<BadgeStatusEntity> badgesStatus) {
         this.badgesStatus = badgesStatus;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

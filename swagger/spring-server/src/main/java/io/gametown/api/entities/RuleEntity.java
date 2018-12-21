@@ -16,7 +16,7 @@ public class RuleEntity implements Serializable {
     private long id;
 
     private String value;
-    @Column(name = "ACTIVE", columnDefinition = "BIT DEFAULT 1")
+    @Column(name = "ACTIVE", nullable = false, insertable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean active;
 
     private BadgeEntity badgeEntity;

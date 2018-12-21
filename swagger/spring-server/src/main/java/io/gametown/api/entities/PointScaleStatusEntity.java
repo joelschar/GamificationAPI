@@ -17,7 +17,7 @@ public class PointScaleStatusEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "REGISTRATION_TIMESTAMP", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "REGISTRATION_TIMESTAMP", insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp registrationTimestamp;
 
     private int nbPoints;
@@ -42,10 +42,6 @@ public class PointScaleStatusEntity implements Serializable {
 
     public Timestamp getRegistrationTimestamp() {
         return registrationTimestamp;
-    }
-
-    public void setRegistrationTimestamp(Timestamp registrationTimestamp) {
-        this.registrationTimestamp = registrationTimestamp;
     }
 
     public PointScaleEntity getPointScale() {

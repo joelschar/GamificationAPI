@@ -1,0 +1,22 @@
+[
+  {
+    "_class" : "io.gametown.api.entities.ApplicationEntity",
+    "active" : true,
+    "apiKey" : "application01"
+  },
+  {
+    "_class" : "io.gametown.api.entities.ApplicationEntity",
+    "active" : true,
+    "apiKey" : "application02"
+  },
+  {
+    "_class" : "io.gametown.api.entities.ApplicationEntity",
+    "active" : true,
+    "apiKey" : "application03"
+  },
+  {
+    "_class" : "io.gametown.api.entities.ApplicationEntity",
+    "active" : true,
+    "apiKey" : "application04"
+  }
+]

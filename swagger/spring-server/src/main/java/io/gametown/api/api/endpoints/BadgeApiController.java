@@ -16,6 +16,7 @@ import io.gametown.api.repositories.BadgeStatusRepository;
 import io.gametown.api.repositories.PointScaleRepository;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -69,18 +70,20 @@ public class BadgeApiController implements BadgesApi {
     public ResponseEntity<Void> deleteBadge(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                             @ApiParam(value = ""  ) @RequestBody Badge badge) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        if(applicationEntity.getBadges().contains(tools.toBadgeEntity(badge))) {
-
-            BadgeEntity badgeToDelete = badgeRepository.findById(badge.getId()).orElseThrow(() -> new RuntimeException());
-            badgeToDelete.setActive(false);
-            badgeRepository.save(badgeToDelete);
+        List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
+        for (BadgeEntity badgeEntity: badgesEntity ) {
+            if(badgeEntity.getId() == badge.getId()){
+                BadgeEntity badgeToDelete = badgeEntity;
+                badgeToDelete.setActive(false);
+                badgeRepository.save(badgeToDelete);
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
         }
-
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @Override
-    public     ResponseEntity<List<Badge>> getBadges(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey){
+    public ResponseEntity<List<Badge>> getBadges(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey){
         System.out.println(apiKey);
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
@@ -100,11 +103,16 @@ public class BadgeApiController implements BadgesApi {
                                              @ApiParam(value = "" ,required=true ) @RequestBody Badge badge) {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
-        int indexOfBadge = badgesEntity.indexOf(tools.toBadgeEntity(badge));
-        badgesEntity.get(indexOfBadge).setName(badge.getName());
-        applicationEntity.setBadges(badgesEntity);
-        applicationRepository.save(applicationEntity);
+        for (BadgeEntity badgeEntity: badgesEntity ) {
+            if(badgeEntity.getId() == badge.getId()){
+                BadgeEntity badgeToUpdate = badgeEntity;
+                badgeToUpdate.setActive(true);
+                badgeToUpdate.setName(badge.getName());
+                badgeRepository.save(badgeToUpdate);
+                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            }
+        }
 
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }
