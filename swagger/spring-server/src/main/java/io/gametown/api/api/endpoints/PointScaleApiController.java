@@ -66,9 +66,8 @@ public class PointScaleApiController implements PointScalesApi {
 
     @Override
     public ResponseEntity<Void> deletePointScale(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
-                                                 @ApiParam(value = ""  ) @RequestBody PointScale badge) {
-        //TODO CORRIGER YAML Pointscale badge
-        /*
+                                                 @ApiParam(value = ""  ) @RequestBody PointScale pointScale) {
+
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
 
         if(applicationEntity.getBadges().contains(tools.toPointScaleEntity(pointScale))){
@@ -76,7 +75,6 @@ public class PointScaleApiController implements PointScalesApi {
             PointScaleEntity PointScaleEntitiyToDelete = pointScaleRepository.findById(pointScale.getId()).orElseThrow(() -> new RuntimeException());
             PointScaleEntitiyToDelete.setActive(false);
         }
-        */
         return ResponseEntity.status(204).build();
 
     }
@@ -97,16 +95,15 @@ public class PointScaleApiController implements PointScalesApi {
 
     @Override
     public ResponseEntity<PointScale> updatePointScale(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
-                                                       @ApiParam(value = "" ,required=true ) @RequestBody PointScale badge) {
-        //TODO CORRIGER YAML Pointscale badge
-        /*
+                                                       @ApiParam(value = "" ,required=true ) @RequestBody PointScale pointScale) {
+
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<PointScaleEntity> pointScaleEntity = applicationEntity.getPointScales();
         int indexOfBadge = pointScaleEntity.indexOf(tools.toPointScaleEntity(pointScale));
         pointScaleEntity.get(indexOfBadge).setName(pointScale.getName());
         applicationEntity.setPointScales(pointScaleEntity);
         applicationRepository.save(applicationEntity);
-        */
+
         return ResponseEntity.status(204).build();
     }
 }

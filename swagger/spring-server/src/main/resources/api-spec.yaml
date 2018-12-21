@@ -141,7 +141,7 @@ paths:
         required: true
         type: string
       - in: body
-        name: badge
+        name: pointScale
         required: true
         schema:
           $ref: '#/definitions/PointScale'
@@ -161,7 +161,7 @@ paths:
         required: true
         type: string
       - in: body
-        name: badge
+        name: pointScale
         schema:
           $ref: '#/definitions/PointScale'
       responses:
@@ -221,7 +221,7 @@ paths:
         required: true
         type: string
       - in: body
-        name: badge
+        name: rule
         required: true
         schema:
           $ref: '#/definitions/Rule'
@@ -241,7 +241,7 @@ paths:
         required: true
         type: string
       - in: body
-        name: badge
+        name: rule
         schema:
           $ref: '#/definitions/Rule'
       responses:

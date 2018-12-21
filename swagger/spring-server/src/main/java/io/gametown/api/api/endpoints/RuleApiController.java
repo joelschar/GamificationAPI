@@ -45,9 +45,8 @@ public class RuleApiController implements RulesApi {
 
     @Override
     public ResponseEntity<Void> deleteRule(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
-                                           @ApiParam(value = ""  ) @RequestBody Rule badge) {
-        //TODO Corriger YAML Rule badge
-        /*
+                                           @ApiParam(value = ""  ) @RequestBody Rule rule) {
+
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<RuleEntity> rules = applicationEntity.getRules();
 
@@ -56,7 +55,7 @@ public class RuleApiController implements RulesApi {
             ruleToDelete.setActive(false);
             ruleRepository.save(ruleToDelete);
         }
-        */
+
         return ResponseEntity.status(204).build();
     }
 
@@ -78,9 +77,8 @@ public class RuleApiController implements RulesApi {
 
     @Override
     public ResponseEntity<Rule> updateRule(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
-                                           @ApiParam(value = "" ,required=true ) @RequestBody Rule badge) {
-        //TODO : COrriger YAML Rule badge
-        /*
+                                           @ApiParam(value = "" ,required=true ) @RequestBody Rule rule) {
+
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<RuleEntity> rules = applicationEntity.getRules();
 
@@ -92,7 +90,7 @@ public class RuleApiController implements RulesApi {
             ruleToUpdate.setActive(true);
             ruleRepository.save(ruleToUpdate);
         }
-        */
+
         return ResponseEntity.status(204).build();
     }
 }
