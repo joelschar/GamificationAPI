@@ -103,7 +103,7 @@ public class PointScaleApiController implements PointScalesApi {
         for (PointScaleEntity pointScaleEntity: pointScalesEntity ) {
             if(pointScaleEntity.getId() == pointScale.getId()){
                 PointScaleEntity pointScaleToUpdate = pointScaleEntity;
-                pointScaleToUpdate.setActive(true);
+                pointScaleToUpdate.setActive(pointScale.getActive());
                 pointScaleToUpdate.setName(pointScale.getName());
                 pointScaleRepository.save(pointScaleToUpdate);
                 return ResponseEntity.status(HttpStatus.ACCEPTED).build();

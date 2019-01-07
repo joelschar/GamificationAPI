@@ -45,6 +45,7 @@ public class ModelUtils {
         Badge badge = new Badge();
         badge.setId((int) entity.getId());
         badge.setName(entity.getName());
+        badge.active(entity.isActive());
         return badge;
     }
 
@@ -58,6 +59,7 @@ public class ModelUtils {
         PointScale pointScale = new PointScale();
         pointScale.setId((int) entity.getId());
         pointScale.setName(entity.getName());
+        pointScale.active(entity.isActive());
         return pointScale;
     }
 
