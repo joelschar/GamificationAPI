@@ -53,7 +53,7 @@ public class BadgeApiController implements BadgesApi {
         // Create the Badge
         BadgeEntity newBadgeEntity = tools.toBadgeEntity(badge);
         badgeRepository.save(newBadgeEntity);
-        Long id = newBadgeEntity.getId();
+        int id = newBadgeEntity.getId();
 
         badges.add(newBadgeEntity);
         applicationEntity.setBadges(badges);

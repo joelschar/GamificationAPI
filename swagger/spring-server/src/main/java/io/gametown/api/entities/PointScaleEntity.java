@@ -14,16 +14,12 @@ public class PointScaleEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     private String name;
 
     @Column(name = "ACTIVE", nullable = false, insertable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean active;
-
-    public long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -39,5 +35,13 @@ public class PointScaleEntity implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -1,6 +1,7 @@
 package io.gametown.api.entities;
 
 import io.gametown.api.api.model.Badge;
+import io.swagger.models.auth.In;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +17,7 @@ public class BadgeEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     private String name;
 
@@ -31,11 +32,11 @@ public class BadgeEntity implements Serializable {
         this.name = name;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -2,15 +2,24 @@ package io.gametown.api.api.service;
 
 import io.gametown.api.api.model.*;
 import io.gametown.api.entities.*;
+import io.gametown.api.repositories.BadgeRepository;
+import io.gametown.api.repositories.PointScaleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ModelUtils {
 
+    @Autowired
+    BadgeRepository badgeRepository;
+
+    @Autowired
+    PointScaleRepository pointScaleRepository;
+
     public RuleEntity toRuleEntity(Rule rule) {
         RuleEntity entity = new RuleEntity();
-        entity.setBadgeEntity(toBadgeEntity(rule.getBadge()));
         entity.setNbrPoint(rule.getNbrPoints());
+        entity.setBadgeEntity(toBadgeEntity(rule.getBadge()));
         entity.setPointScaleEntity(toPointScaleEntity(rule.getPointScale()));
         entity.setValue(rule.getValue());
         return entity;
@@ -21,8 +30,8 @@ public class ModelUtils {
         rule.setId((int) entity.getId());
         rule.setValue(entity.getValue());
         rule.setBadge(toBadge(entity.getBadgeEntity()));
-        rule.setNbrPoints(entity.getNbrPoint());
         rule.setPointScale(toPointScale(entity.getPointScaleEntity()));
+        rule.setNbrPoints(entity.getNbrPoint());
         return rule;
     }
 

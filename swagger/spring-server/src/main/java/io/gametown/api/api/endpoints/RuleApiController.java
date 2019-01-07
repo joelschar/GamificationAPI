@@ -10,6 +10,8 @@ import io.gametown.api.entities.BadgeEntity;
 import io.gametown.api.entities.PointScaleEntity;
 import io.gametown.api.entities.RuleEntity;
 import io.gametown.api.repositories.ApplicationRepository;
+import io.gametown.api.repositories.BadgeRepository;
+import io.gametown.api.repositories.PointScaleRepository;
 import io.gametown.api.repositories.RuleRepository;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +37,46 @@ public class RuleApiController implements RulesApi {
     ApplicationRepository applicationRepository;
 
     @Autowired
+    BadgeRepository badgeRepository;
+
+    @Autowired
+    PointScaleRepository pointScaleRepository;
+
+    @Autowired
     ModelUtils tools;
 
     @Override
     public ResponseEntity<Rule> createRule(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
-                                           @ApiParam(value = "" ,required=true ) @RequestBody Rule pointScale) {
-        return null;
+                                           @ApiParam(value = "" ,required=true ) @RequestBody Rule rule) {
+        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        List<RuleEntity> rules = applicationEntity.getRules();
+
+        int badgeID = rule.getBadge().getId();
+        int pointScaleID = rule.getPointScale().getId();
+
+        BadgeEntity badgeEntity = badgeRepository.findById(badgeID).orElseThrow(() -> new RuntimeException());
+        PointScaleEntity pointScaleEntity = pointScaleRepository.findById(pointScaleID).orElseThrow(() -> new RuntimeException());
+
+        rule.setBadge(tools.toBadge(badgeEntity));
+        rule.setPointScale(tools.toPointScale(pointScaleEntity));
+
+        // Create the PointScale
+        RuleEntity newRuleEntity = tools.toRuleEntity(rule);
+        newRuleEntity.getBadgeEntity().setId(rule.getBadge().getId());
+        newRuleEntity.getPointScaleEntity().setId(rule.getPointScale().getId());
+        
+        ruleRepository.save(newRuleEntity);
+        Long id = newRuleEntity.getId();
+
+        rules.add(newRuleEntity);
+        applicationEntity.setRules(rules);
+        applicationRepository.save(applicationEntity);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(newRuleEntity.getId()).toUri();
+
+        return ResponseEntity.created(location).build();
     }
 
     @Override

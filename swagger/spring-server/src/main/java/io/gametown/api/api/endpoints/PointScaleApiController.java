@@ -52,7 +52,7 @@ public class PointScaleApiController implements PointScalesApi {
         // Create the PointScale
         PointScaleEntity newPointScaleEntitiy = tools.toPointScaleEntity(pointScale);
         pointScaleRepository.save(newPointScaleEntitiy);
-        Long id = newPointScaleEntitiy.getId();
+        int id = newPointScaleEntitiy.getId();
 
         pointScales.add(newPointScaleEntitiy);
         applicationEntity.setPointScales(pointScales);
