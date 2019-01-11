@@ -199,7 +199,7 @@ paths:
         required: true
         type: string
       - in: body
-        name: pointScale
+        name: rule
         required: true
         schema:
           $ref: '#/definitions/Rule'
@@ -349,6 +349,8 @@ definitions:
         type: integer
       name:
         type: string
+      active:
+        type: boolean
   PointScale:
     type: object
     properties:
@@ -356,6 +358,8 @@ definitions:
         type: integer
       name:
         type: string
+      active:
+        type: boolean
   Rule:
     type: object
     properties:
@@ -363,6 +367,8 @@ definitions:
         type: integer
       value:
         type: string
+      active:
+        type: boolean
       badge:
         $ref: '#/definitions/Badge'
       pointScale:

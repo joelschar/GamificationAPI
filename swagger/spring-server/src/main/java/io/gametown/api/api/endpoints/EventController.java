@@ -45,6 +45,7 @@ public class EventController implements EventsApi {
         EventEntity eventEntity = tools.toEventEntity(event);
         eventRepository.save(eventEntity);
 
+
         String ruleToCall = eventEntity.getEvent();
         List<RuleEntity> rules = applicationEntity.getRules();
         RuleEntity myRule = null;

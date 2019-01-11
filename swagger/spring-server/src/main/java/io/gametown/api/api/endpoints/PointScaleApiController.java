@@ -46,13 +46,15 @@ public class PointScaleApiController implements PointScalesApi {
     @Override
     public ResponseEntity<PointScale> createPointScale(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                                        @ApiParam(value = "" ,required=true ) @RequestBody PointScale pointScale) {
+        pointScale.setActive(true);
+
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<PointScaleEntity> pointScales = applicationEntity.getPointScales();
 
         // Create the PointScale
         PointScaleEntity newPointScaleEntitiy = tools.toPointScaleEntity(pointScale);
         pointScaleRepository.save(newPointScaleEntitiy);
-        Long id = newPointScaleEntitiy.getId();
+        int id = newPointScaleEntitiy.getId();
 
         pointScales.add(newPointScaleEntitiy);
         applicationEntity.setPointScales(pointScales);
@@ -103,7 +105,7 @@ public class PointScaleApiController implements PointScalesApi {
         for (PointScaleEntity pointScaleEntity: pointScalesEntity ) {
             if(pointScaleEntity.getId() == pointScale.getId()){
                 PointScaleEntity pointScaleToUpdate = pointScaleEntity;
-                pointScaleToUpdate.setActive(true);
+                pointScaleToUpdate.setActive(pointScale.getActive());
                 pointScaleToUpdate.setName(pointScale.getName());
                 pointScaleRepository.save(pointScaleToUpdate);
                 return ResponseEntity.status(HttpStatus.ACCEPTED).build();

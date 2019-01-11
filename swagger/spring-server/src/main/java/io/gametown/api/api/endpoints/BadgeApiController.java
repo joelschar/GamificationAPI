@@ -47,13 +47,15 @@ public class BadgeApiController implements BadgesApi {
     public ResponseEntity<Badge> createBadge(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                              @ApiParam(value = "" ,required=true ) @RequestBody Badge badge) {
 
+        badge.setActive(true);
+
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<BadgeEntity> badges = applicationEntity.getBadges();
 
         // Create the Badge
         BadgeEntity newBadgeEntity = tools.toBadgeEntity(badge);
         badgeRepository.save(newBadgeEntity);
-        Long id = newBadgeEntity.getId();
+        int id = newBadgeEntity.getId();
 
         badges.add(newBadgeEntity);
         applicationEntity.setBadges(badges);
@@ -106,7 +108,7 @@ public class BadgeApiController implements BadgesApi {
         for (BadgeEntity badgeEntity: badgesEntity ) {
             if(badgeEntity.getId() == badge.getId()){
                 BadgeEntity badgeToUpdate = badgeEntity;
-                badgeToUpdate.setActive(true);
+                badgeToUpdate.setActive(badge.getActive());
                 badgeToUpdate.setName(badge.getName());
                 badgeRepository.save(badgeToUpdate);
                 return ResponseEntity.status(HttpStatus.ACCEPTED).build();
