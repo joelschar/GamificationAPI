@@ -15,6 +15,7 @@ import io.gametown.api.repositories.PointScaleRepository;
 import io.gametown.api.repositories.RuleRepository;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,6 +49,7 @@ public class RuleApiController implements RulesApi {
     @Override
     public ResponseEntity<Rule> createRule(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                            @ApiParam(value = "" ,required=true ) @RequestBody Rule rule) {
+        rule.setActive(true);
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<RuleEntity> rules = applicationEntity.getRules();
 
@@ -84,12 +86,14 @@ public class RuleApiController implements RulesApi {
                                            @ApiParam(value = ""  ) @RequestBody Rule rule) {
 
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<RuleEntity> rules = applicationEntity.getRules();
+        List<RuleEntity> rulesEntity = applicationEntity.getRules();
 
-        if(applicationEntity.getRules().contains(tools.toRuleEntity(rule))) {
-            RuleEntity ruleToDelete = ruleRepository.findById((long)rule.getId()).orElseThrow(() -> new RuntimeException());
-            ruleToDelete.setActive(false);
-            ruleRepository.save(ruleToDelete);
+        for (RuleEntity ruleEntity: rulesEntity ) {
+            if(ruleEntity.getId() == rule.getId()){
+                ruleEntity.setActive(false);
+                ruleRepository.save(ruleEntity);
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
         }
 
         return ResponseEntity.status(204).build();
@@ -116,17 +120,28 @@ public class RuleApiController implements RulesApi {
                                            @ApiParam(value = "" ,required=true ) @RequestBody Rule rule) {
 
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<RuleEntity> rules = applicationEntity.getRules();
+        List<RuleEntity> rulesEntity = applicationEntity.getRules();
 
-        RuleEntity ruleTemp = tools.toRuleEntity(rule);
+        int badgeID = rule.getBadge().getId();
+        int pointScaleID = rule.getPointScale().getId();
 
-        if(rules.contains(ruleTemp)) {
-            RuleEntity ruleToUpdate = ruleRepository.findById((long)rule.getId()).orElseThrow(() -> new RuntimeException());
-            ruleToUpdate.setValue(ruleTemp.getValue());
-            ruleToUpdate.setActive(true);
-            ruleRepository.save(ruleToUpdate);
+        BadgeEntity badgeEntity = badgeRepository.findById(badgeID).orElseThrow(() -> new RuntimeException());
+        PointScaleEntity pointScaleEntity = pointScaleRepository.findById(pointScaleID).orElseThrow(() -> new RuntimeException());
+
+        for (RuleEntity ruleEntity: rulesEntity ) {
+            if(ruleEntity.getId() == rule.getId()){
+                RuleEntity ruleToUpdate = ruleEntity;
+                ruleToUpdate.setActive(rule.getActive());
+
+                ruleToUpdate.setPointScaleEntity((pointScaleEntity));
+                ruleToUpdate.setBadgeEntity(badgeEntity);
+                ruleToUpdate.setNbrPoint(rule.getNbrPoints());
+                ruleToUpdate.setValue(rule.getValue());
+                ruleRepository.save(ruleToUpdate);
+                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+            }
         }
 
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

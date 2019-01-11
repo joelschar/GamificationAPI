@@ -367,6 +367,8 @@ definitions:
         type: integer
       value:
         type: string
+      active:
+        type: boolean
       badge:
         $ref: '#/definitions/Badge'
       pointScale:

@@ -46,6 +46,8 @@ public class PointScaleApiController implements PointScalesApi {
     @Override
     public ResponseEntity<PointScale> createPointScale(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                                        @ApiParam(value = "" ,required=true ) @RequestBody PointScale pointScale) {
+        pointScale.setActive(true);
+
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<PointScaleEntity> pointScales = applicationEntity.getPointScales();
 
