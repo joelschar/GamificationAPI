@@ -48,7 +48,7 @@ public class PointScaleApiController implements PointScalesApi {
                                                        @ApiParam(value = "" ,required=true ) @RequestBody PointScale pointScale) {
         pointScale.setActive(true);
 
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+  /*      ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<PointScaleEntity> pointScales = applicationEntity.getPointScales();
 
         // Create the PointScale
@@ -65,12 +65,14 @@ public class PointScaleApiController implements PointScalesApi {
                 .buildAndExpand(newPointScaleEntitiy.getId()).toUri();
 
         return ResponseEntity.created(location).build();
+        */
+        return null;
     }
 
     @Override
     public ResponseEntity<Void> deletePointScale(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                                  @ApiParam(value = ""  ) @RequestBody PointScale pointScale) {
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+    /*    ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<PointScaleEntity> pointScalesEntity = applicationEntity.getPointScales();
         for (PointScaleEntity pointScaleEntity: pointScalesEntity ) {
             if(pointScaleEntity.getId() == pointScale.getId()){
@@ -80,12 +82,14 @@ public class PointScaleApiController implements PointScalesApi {
                 return ResponseEntity.status(HttpStatus.ACCEPTED).build();
             }
         }
+        */
         return ResponseEntity.status(204).build();
     }
 
     @Override
     public ResponseEntity<List<PointScale>> getPointScales(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey) {
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+
+ /*       ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<PointScaleEntity> pointScales = applicationEntity.getPointScales();
 
         List<PointScale> pointScaleList = new ArrayList<>();
@@ -95,12 +99,15 @@ public class PointScaleApiController implements PointScalesApi {
         }
 
         return ResponseEntity.ok(pointScaleList);
+        */
+ return null;
     }
 
     @Override
     public ResponseEntity<PointScale> updatePointScale(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                                        @ApiParam(value = "" ,required=true ) @RequestBody PointScale pointScale) {
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+
+    /*    ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<PointScaleEntity> pointScalesEntity = applicationEntity.getPointScales();
         for (PointScaleEntity pointScaleEntity: pointScalesEntity ) {
             if(pointScaleEntity.getId() == pointScale.getId()){
@@ -111,7 +118,7 @@ public class PointScaleApiController implements PointScalesApi {
                 return ResponseEntity.status(HttpStatus.ACCEPTED).build();
             }
         }
-
+*/
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

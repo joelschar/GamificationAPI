@@ -45,7 +45,8 @@ public class UserApiController implements UsersApi {
     @Override
     public ResponseEntity<User> getUser(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                         @ApiParam(value = "",required=true ) @PathVariable("userId") Integer userId) {
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+
+    /*    ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<UserEntity> usersEntity = applicationEntity.getUsers();
 
         for (UserEntity userEntity: usersEntity ) {
@@ -53,12 +54,14 @@ public class UserApiController implements UsersApi {
                 return ResponseEntity.ok(tools.toUser(userEntity));
             }
         }
+        */
         return ResponseEntity.notFound().build();
     }
 
     @Override
     public ResponseEntity<List<Badge>> getUserBadges(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                                      @ApiParam(value = "",required=true ) @PathVariable("userId") Integer userId) {
+     /*
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<UserEntity> usersEntity = applicationEntity.getUsers();
 
@@ -66,18 +69,20 @@ public class UserApiController implements UsersApi {
 
         for (UserEntity userEntity: usersEntity ) {
             if(userEntity.getId() == userId){
-                List<BadgeStatusEntity> badgesStatusEntity = userEntity.getBadgesStatus();
+                /*List<BadgeStatusEntity> badgesStatusEntity = userEntity.getBadgesStatus();
                 for (BadgeStatusEntity badgeStatusEntity : badgesStatusEntity){
                     badges.add(tools.toBadge(badgeStatusEntity.getBadge()));
-                }
+                }*//*
                 return  ResponseEntity.ok(badges);
             }
         }
+        */
         return ResponseEntity.notFound().build();
     }
 
     @Override
     public ResponseEntity<List<User>> getUsers(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey) {
+    /*
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<UserEntity> usersEntity = applicationEntity.getUsers();
 
@@ -86,5 +91,8 @@ public class UserApiController implements UsersApi {
             users.add(tools.toUser(userEntity));
         }
         return  ResponseEntity.ok(users);
+
+*/
+    return null;
     }
 }

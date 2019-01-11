@@ -49,7 +49,8 @@ public class RuleApiController implements RulesApi {
     @Override
     public ResponseEntity<Rule> createRule(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                            @ApiParam(value = "" ,required=true ) @RequestBody Rule rule) {
-        rule.setActive(true);
+
+    /*    rule.setActive(true);
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
 
         List<RuleEntity> rules = applicationEntity.getRules();
@@ -102,12 +103,15 @@ public class RuleApiController implements RulesApi {
                 .buildAndExpand(newRuleEntity.getId()).toUri();
 
         return ResponseEntity.created(location).build();
+       */
+    return null;
     }
 
     @Override
     public ResponseEntity<Void> deleteRule(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                            @ApiParam(value = ""  ) @RequestBody Rule rule) {
 
+        /*
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<RuleEntity> rulesEntity = applicationEntity.getRules();
 
@@ -118,13 +122,14 @@ public class RuleApiController implements RulesApi {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
         }
-
+*/
         return ResponseEntity.status(204).build();
     }
 
     @Override
     public ResponseEntity<List<Rule>> getRules(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey) {
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+
+  /*      ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<RuleEntity> rules = applicationEntity.getRules();
 
         List<Rule> ruleList = new ArrayList<>();
@@ -136,12 +141,15 @@ public class RuleApiController implements RulesApi {
         }
 
         return  ResponseEntity.ok(ruleList);
+       */
+  return null;
     }
 
     @Override
     public ResponseEntity<Rule> updateRule(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                            @ApiParam(value = "" ,required=true ) @RequestBody Rule rule) {
 
+        /*
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<RuleEntity> rulesEntity = applicationEntity.getRules();
 
@@ -164,7 +172,7 @@ public class RuleApiController implements RulesApi {
                 return ResponseEntity.status(HttpStatus.ACCEPTED).build();
             }
         }
-
+*/
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

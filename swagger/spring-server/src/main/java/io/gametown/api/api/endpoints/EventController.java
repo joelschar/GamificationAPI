@@ -42,7 +42,7 @@ public class EventController implements EventsApi {
     public ResponseEntity<Event> newEvent(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                           @ApiParam(value = "" ,required=true ) @RequestBody Event event) {
 
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+     /*   ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         EventEntity eventEntity = tools.toEventEntity(event);
         eventRepository.save(eventEntity);
 
@@ -85,9 +85,9 @@ public class EventController implements EventsApi {
             if(myBadge != null){
                 BadgeStatusEntity badgeStatus = new BadgeStatusEntity();
                 badgeStatus.setBadge(myBadge);
-                List<BadgeStatusEntity> badgesStatus = myUser.getBadgesStatus(); // user has no badge status
-                badgesStatus.add(badgeStatus);
-                myUser.setBadgesStatus(badgesStatus);
+                //List<BadgeStatusEntity> badgesStatus = myUser.getBadgesStatus(); // user has no badge status
+                //badgesStatus.add(badgeStatus);
+                //myUser.setBadgesStatus(badgesStatus);
                 System.out.println("user has new badge");
             }
 
@@ -96,16 +96,17 @@ public class EventController implements EventsApi {
                 PointScaleStatusEntity pointScaleStatus = new PointScaleStatusEntity();
                 pointScaleStatus.setPointScale(myPointScale);
                 pointScaleStatus.setNbPoints(myRule.getNbrPoint());
-                List<PointScaleStatusEntity> pointsScalesStatus = myUser.getPointScalesStatus();
-                pointsScalesStatus.add(pointScaleStatus);
-                myUser.setPointScalesStatus(pointsScalesStatus);
+                //List<PointScaleStatusEntity> pointsScalesStatus = myUser.getPointScalesStatus();
+                //pointsScalesStatus.add(pointScaleStatus);
+                //myUser.setPointScalesStatus(pointsScalesStatus);
                 System.out.println("point added to user");
             }
 
         }
 
         userRepository.save(myUser);
-
+*/
         return ResponseEntity.status(200).build();
     }
+
 }

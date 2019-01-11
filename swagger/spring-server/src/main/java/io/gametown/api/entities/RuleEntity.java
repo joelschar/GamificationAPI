@@ -16,6 +16,10 @@ public class RuleEntity implements Serializable {
     private long id;
 
     private String value;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private ApplicationEntity application;
+
     @Column(name = "ACTIVE", nullable = false, insertable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean active;
 
@@ -71,4 +75,13 @@ public class RuleEntity implements Serializable {
     public void setBadgeEntity(BadgeEntity badgeEntity) {
         this.badgeEntity = badgeEntity;
     }
+
+    public ApplicationEntity getApplication() {
+        return application;
+    }
+
+    public void setApplication(ApplicationEntity application) {
+        this.application = application;
+    }
+
 }

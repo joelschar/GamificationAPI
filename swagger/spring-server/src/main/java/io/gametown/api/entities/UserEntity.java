@@ -26,11 +26,8 @@ public class UserEntity implements Serializable {
     @Column(name = "ACTIVE", nullable = false, insertable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean active;
 
-    @ManyToMany
-    private List<BadgeStatusEntity> badgesStatus = new ArrayList<>();
-
-    @ManyToMany
-    private List<PointScaleStatusEntity> pointScalesStatus = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private ApplicationEntity application;
 
     public long getId() {
         return id;
@@ -60,27 +57,19 @@ public class UserEntity implements Serializable {
         this.email = email;
     }
 
-    public List<PointScaleStatusEntity> getPointScalesStatus() {
-        return pointScalesStatus;
-    }
-
-    public void setPointScalesStatus(List<PointScaleStatusEntity> pointScalesStatus) {
-        this.pointScalesStatus = pointScalesStatus;
-    }
-
-    public List<BadgeStatusEntity> getBadgesStatus() {
-        return badgesStatus;
-    }
-
-    public void setBadgesStatus(List<BadgeStatusEntity> badgesStatus) {
-        this.badgesStatus = badgesStatus;
-    }
-
     public boolean isActive() {
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public ApplicationEntity getApplication() {
+        return application;
+    }
+
+    public void setApplication(ApplicationEntity application) {
+        this.application = application;
     }
 }

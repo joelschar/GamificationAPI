@@ -50,16 +50,13 @@ public class BadgeApiController implements BadgesApi {
         badge.setActive(true);
 
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<BadgeEntity> badges = applicationEntity.getBadges();
 
         // Create the Badge
         BadgeEntity newBadgeEntity = tools.toBadgeEntity(badge);
+        newBadgeEntity.setApplication(applicationEntity);
         badgeRepository.save(newBadgeEntity);
-        int id = newBadgeEntity.getId();
 
-        badges.add(newBadgeEntity);
-        applicationEntity.setBadges(badges);
-        applicationRepository.save(applicationEntity);
+        int id = newBadgeEntity.getId();
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -71,7 +68,8 @@ public class BadgeApiController implements BadgesApi {
     @Override
     public ResponseEntity<Void> deleteBadge(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                             @ApiParam(value = ""  ) @RequestBody Badge badge) {
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+
+/*        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
         for (BadgeEntity badgeEntity: badgesEntity ) {
             if(badgeEntity.getId() == badge.getId()){
@@ -81,19 +79,19 @@ public class BadgeApiController implements BadgesApi {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }
         }
+
+*/
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @Override
     public ResponseEntity<List<Badge>> getBadges(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey){
         System.out.println(apiKey);
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
+
+        List<BadgeEntity> badgesEntity = badgeRepository.findAllByApplication_ApiKeyAndActiveIsTrue(apiKey);
 
         List<Badge> badges = new ArrayList<>();
-
         for (BadgeEntity badgeEntity: badgesEntity ) {
-            if(badgeEntity.isActive())
                 badges.add(tools.toBadge(badgeEntity));
         }
 
@@ -103,7 +101,8 @@ public class BadgeApiController implements BadgesApi {
     @Override
     public ResponseEntity<Badge> updateBadge(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                              @ApiParam(value = "" ,required=true ) @RequestBody Badge badge) {
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+
+/*        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
         for (BadgeEntity badgeEntity: badgesEntity ) {
             if(badgeEntity.getId() == badge.getId()){
@@ -115,6 +114,7 @@ public class BadgeApiController implements BadgesApi {
             }
         }
 
+*/
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

@@ -19,8 +19,11 @@ public class BadgeStatusEntity implements Serializable {
     @Column(name = "REGISTRATION_TIMESTAMP", insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp registrationTimestamp;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private BadgeEntity badge;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private UserEntity user;
 
     public long getId() {
         return id;
@@ -40,5 +43,13 @@ public class BadgeStatusEntity implements Serializable {
 
     public void setBadge(BadgeEntity badge) {
         this.badge = badge;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

@@ -21,6 +21,9 @@ public class BadgeEntity implements Serializable {
 
     private String name;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private ApplicationEntity application;
+
     @Column(name = "ACTIVE", nullable = false, insertable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean active;
 
@@ -46,5 +49,13 @@ public class BadgeEntity implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public ApplicationEntity getApplication() {
+        return application;
+    }
+
+    public void setApplication(ApplicationEntity application) {
+        this.application = application;
     }
 }

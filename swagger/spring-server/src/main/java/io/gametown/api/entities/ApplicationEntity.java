@@ -1,5 +1,7 @@
 package io.gametown.api.entities;
 
+import io.gametown.api.api.model.PointScale;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -19,16 +21,16 @@ public class ApplicationEntity implements Serializable {
     @Id
     private String apiKey;
 
-    @OneToMany
+    @OneToMany(targetEntity = BadgeEntity.class, cascade = CascadeType.DETACH, fetch = FetchType.LAZY, mappedBy = "application")
     private List<BadgeEntity> badges;
 
-    @OneToMany
+    @OneToMany(targetEntity = RuleEntity.class, cascade = CascadeType.DETACH, fetch = FetchType.LAZY, mappedBy = "application")
     private List<RuleEntity> rules;
 
-    @OneToMany
+    @OneToMany(targetEntity = PointScaleEntity.class, cascade = CascadeType.DETACH, fetch = FetchType.LAZY, mappedBy = "application")
     private List<PointScaleEntity> pointScales;
 
-    @OneToMany
+    @OneToMany(targetEntity = UserEntity.class, cascade = CascadeType.DETACH, fetch = FetchType.LAZY, mappedBy = "application")
     private List<UserEntity> users;
 
     public String getApiKey() {

@@ -1,9 +1,6 @@
 package io.gametown.api.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -25,7 +22,8 @@ public class EventEntity implements Serializable {
 
     private String description;
 
-    //private List<String> properties;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private ApplicationEntity application;
 
     public long getId() {
         return id;
@@ -53,5 +51,13 @@ public class EventEntity implements Serializable {
 
     public void setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
+    }
+
+    public ApplicationEntity getApplication() {
+        return application;
+    }
+
+    public void setApplication(ApplicationEntity application) {
+        this.application = application;
     }
 }

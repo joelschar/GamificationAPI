@@ -22,7 +22,11 @@ public class PointScaleStatusEntity implements Serializable {
 
     private int nbPoints;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private PointScaleEntity pointScale;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private UserEntity user;
 
     public int getNbPoints() {
         return nbPoints;
@@ -50,5 +54,13 @@ public class PointScaleStatusEntity implements Serializable {
 
     public void setPointScale(PointScaleEntity pointScale) {
         this.pointScale = pointScale;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

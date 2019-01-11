@@ -18,6 +18,9 @@ public class PointScaleEntity implements Serializable {
 
     private String name;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private ApplicationEntity application;
+
     @Column(name = "ACTIVE", nullable = false, insertable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean active;
 
@@ -43,5 +46,13 @@ public class PointScaleEntity implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public ApplicationEntity getApplication() {
+        return application;
+    }
+
+    public void setApplication(ApplicationEntity application) {
+        this.application = application;
     }
 }
