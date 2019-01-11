@@ -51,22 +51,45 @@ public class RuleApiController implements RulesApi {
                                            @ApiParam(value = "" ,required=true ) @RequestBody Rule rule) {
         rule.setActive(true);
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+
         List<RuleEntity> rules = applicationEntity.getRules();
 
-        int badgeID = rule.getBadge().getId();
-        int pointScaleID = rule.getPointScale().getId();
+        int badgeID = -1;
+        int pointScaleID = -1;
 
-        BadgeEntity badgeEntity = badgeRepository.findById(badgeID).orElseThrow(() -> new RuntimeException());
-        PointScaleEntity pointScaleEntity = pointScaleRepository.findById(pointScaleID).orElseThrow(() -> new RuntimeException());
+        if(rule.getBadge() != null)
+            badgeID = rule.getBadge().getId();
 
-        rule.setBadge(tools.toBadge(badgeEntity));
-        rule.setPointScale(tools.toPointScale(pointScaleEntity));
+        if(rule.getPointScale() != null)
+            pointScaleID = rule.getPointScale().getId();
+
+        PointScaleEntity pointScaleEntity;
+        if(pointScaleID > 0) {
+            pointScaleEntity = pointScaleRepository.findById(pointScaleID).orElseThrow(() -> new RuntimeException());
+            rule.setPointScale(tools.toPointScale(pointScaleEntity));
+        }
+        else {
+            rule.setPointScale(null);
+        }
+
+        BadgeEntity badgeEntity;
+        if(badgeID > 0){
+            badgeEntity = badgeRepository.findById(badgeID).orElseThrow(() -> new RuntimeException());
+            rule.setBadge(tools.toBadge(badgeEntity));
+        }
+        else {
+            rule.setBadge(null);
+        }
 
         // Create the PointScale
         RuleEntity newRuleEntity = tools.toRuleEntity(rule);
-        newRuleEntity.getBadgeEntity().setId(rule.getBadge().getId());
-        newRuleEntity.getPointScaleEntity().setId(rule.getPointScale().getId());
-        
+        if(rule.getBadge()!=null) {
+            newRuleEntity.getBadgeEntity().setId(rule.getBadge().getId());
+        }
+        if(rule.getPointScale()!=null){
+            newRuleEntity.getPointScaleEntity().setId(rule.getPointScale().getId());
+        }
+
         ruleRepository.save(newRuleEntity);
         Long id = newRuleEntity.getId();
 

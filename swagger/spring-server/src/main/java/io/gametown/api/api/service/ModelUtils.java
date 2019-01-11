@@ -20,8 +20,16 @@ public class ModelUtils {
         RuleEntity entity = new RuleEntity();
         entity.setActive(rule.getActive());
         entity.setNbrPoint(rule.getNbrPoints());
-        entity.setBadgeEntity(toBadgeEntity(rule.getBadge()));
-        entity.setPointScaleEntity(toPointScaleEntity(rule.getPointScale()));
+        if(rule.getBadge() != null)
+            entity.setBadgeEntity(toBadgeEntity(rule.getBadge()));
+        else
+            entity.setBadgeEntity(null);
+
+        if(rule.getPointScale() != null)
+            entity.setPointScaleEntity(toPointScaleEntity(rule.getPointScale()));
+        else
+            entity.setPointScaleEntity(null);
+
         entity.setValue(rule.getValue());
         return entity;
     }
@@ -31,8 +39,17 @@ public class ModelUtils {
         rule.setActive(entity.isActive());
         rule.setId((int) entity.getId());
         rule.setValue(entity.getValue());
-        rule.setBadge(toBadge(entity.getBadgeEntity()));
-        rule.setPointScale(toPointScale(entity.getPointScaleEntity()));
+
+        if(entity.getBadgeEntity() != null)
+            rule.setBadge(toBadge(entity.getBadgeEntity()));
+        else
+            rule.setBadge(null);
+
+        if(entity.getPointScaleEntity() != null)
+            rule.setPointScale(toPointScale(entity.getPointScaleEntity()));
+        else
+            rule.setPointScale(null);
+
         rule.setNbrPoints(entity.getNbrPoint());
         return rule;
     }
