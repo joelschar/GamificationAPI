@@ -1,8 +1,5 @@
 # TrainingREST
 
-<<<<<<< HEAD
-Make sure to check the branches. Complete setup and instructions are available in `swagger-springboot-cucumber-codegen`.
-=======
 # Build and run the Fruit microservice
 
 You can use maven to build and run the REST API implementation from the command line. After invoking the following maven goal, the Spring Boot server will be up and running, listening for connections on port 8080.
@@ -45,5 +42,3 @@ cd cd swagger/fruits-specs/
 mvn clean test
 ```
 You will see the test results in the console, but you can also open the file located in `./target/cucumber/index.html`
-
->>>>>>> swagger-springboot-cucumber-codegen

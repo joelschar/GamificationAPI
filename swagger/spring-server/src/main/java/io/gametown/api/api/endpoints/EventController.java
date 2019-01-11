@@ -51,6 +51,7 @@ public class EventController implements EventsApi {
         for ( RuleEntity rule : rules ) {
             if(rule.getValue().equals(ruleToCall)){
                 myRule = rule;
+                System.out.println("rule found");
                 break;
             }
         }
@@ -59,6 +60,26 @@ public class EventController implements EventsApi {
             return null;
 
         UserEntity myUser = eventEntity.getUserEntity();
+
+        boolean userExists = false;
+        List<UserEntity> users = applicationEntity.getUsers();
+        for ( UserEntity user: users){
+            if (user.getEmail().equals(myUser.getEmail())){
+                userExists = true;
+                myUser = user;
+                System.out.println("user exists");
+                break;
+            }
+        }
+
+        if(!userExists){
+            userRepository.save(myUser);
+            users.add(myUser);
+            applicationEntity.setUsers(users);
+            applicationRepository.save(applicationEntity);
+            System.out.println("userCreated");
+        }
+
         BadgeEntity myBadge = myRule.getBadgeEntity();
         if(myBadge != null){
             BadgeStatusEntity badgeStatus = new BadgeStatusEntity();
@@ -66,6 +87,7 @@ public class EventController implements EventsApi {
             List<BadgeStatusEntity> badgesStatus = myUser.getBadgesStatus();
             badgesStatus.add(badgeStatus);
             myUser.setBadgesStatus(badgesStatus);
+            System.out.println("user has new badge");
         }
 
         PointScaleEntity myPointScale = myRule.getPointScaleEntity();
@@ -76,6 +98,7 @@ public class EventController implements EventsApi {
             List<PointScaleStatusEntity> pointsScalesStatus = myUser.getPointScalesStatus();
             pointsScalesStatus.add(pointScaleStatus);
             myUser.setPointScalesStatus(pointsScalesStatus);
+            System.out.println("point added to user");
         }
 
         userRepository.save(myUser);
