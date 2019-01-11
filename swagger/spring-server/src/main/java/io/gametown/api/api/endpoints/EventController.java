@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-07-26T19:36:34.802Z")
@@ -45,19 +46,17 @@ public class EventController implements EventsApi {
         EventEntity eventEntity = tools.toEventEntity(event);
         eventRepository.save(eventEntity);
 
-
         String ruleToCall = eventEntity.getEvent();
         List<RuleEntity> rules = applicationEntity.getRules();
-        RuleEntity myRule = null;
+        List<RuleEntity> myRules = new ArrayList<>();
         for ( RuleEntity rule : rules ) {
             if(rule.getValue().equals(ruleToCall)){
-                myRule = rule;
+                myRules.add(rule);
                 System.out.println("rule found");
-                break;
             }
         }
 
-        if(myRule == null)
+        if(myRules.isEmpty())
             return null;
 
         UserEntity myUser = eventEntity.getUserEntity();
@@ -81,25 +80,28 @@ public class EventController implements EventsApi {
             System.out.println("userCreated");
         }
 
-        BadgeEntity myBadge = myRule.getBadgeEntity();
-        if(myBadge != null){
-            BadgeStatusEntity badgeStatus = new BadgeStatusEntity();
-            badgeStatus.setBadge(myBadge);
-            List<BadgeStatusEntity> badgesStatus = myUser.getBadgesStatus();
-            badgesStatus.add(badgeStatus);
-            myUser.setBadgesStatus(badgesStatus);
-            System.out.println("user has new badge");
-        }
+        for(RuleEntity myRule: myRules){
+            BadgeEntity myBadge = myRule.getBadgeEntity();
+            if(myBadge != null){
+                BadgeStatusEntity badgeStatus = new BadgeStatusEntity();
+                badgeStatus.setBadge(myBadge);
+                List<BadgeStatusEntity> badgesStatus = myUser.getBadgesStatus(); // user has no badge status
+                badgesStatus.add(badgeStatus);
+                myUser.setBadgesStatus(badgesStatus);
+                System.out.println("user has new badge");
+            }
 
-        PointScaleEntity myPointScale = myRule.getPointScaleEntity();
-        if(myPointScale != null){
-            PointScaleStatusEntity pointScaleStatus = new PointScaleStatusEntity();
-            pointScaleStatus.setPointScale(myPointScale);
-            pointScaleStatus.setNbPoints(myRule.getNbrPoint());
-            List<PointScaleStatusEntity> pointsScalesStatus = myUser.getPointScalesStatus();
-            pointsScalesStatus.add(pointScaleStatus);
-            myUser.setPointScalesStatus(pointsScalesStatus);
-            System.out.println("point added to user");
+            PointScaleEntity myPointScale = myRule.getPointScaleEntity();
+            if(myPointScale != null){
+                PointScaleStatusEntity pointScaleStatus = new PointScaleStatusEntity();
+                pointScaleStatus.setPointScale(myPointScale);
+                pointScaleStatus.setNbPoints(myRule.getNbrPoint());
+                List<PointScaleStatusEntity> pointsScalesStatus = myUser.getPointScalesStatus();
+                pointsScalesStatus.add(pointScaleStatus);
+                myUser.setPointScalesStatus(pointsScalesStatus);
+                System.out.println("point added to user");
+            }
+
         }
 
         userRepository.save(myUser);

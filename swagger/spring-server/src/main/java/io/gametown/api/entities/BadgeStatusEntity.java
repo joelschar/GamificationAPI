@@ -19,6 +19,7 @@ public class BadgeStatusEntity implements Serializable {
     @Column(name = "REGISTRATION_TIMESTAMP", insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp registrationTimestamp;
 
+    @ManyToOne
     private BadgeEntity badge;
 
     public long getId() {

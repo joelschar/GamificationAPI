@@ -4,6 +4,7 @@ import io.gametown.api.api.model.Badge;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,10 +27,10 @@ public class UserEntity implements Serializable {
     private boolean active;
 
     @ManyToMany
-    private List<BadgeStatusEntity> badgesStatus;
+    private List<BadgeStatusEntity> badgesStatus = new ArrayList<>();
 
     @ManyToMany
-    private List<PointScaleStatusEntity> pointScalesStatus;
+    private List<PointScaleStatusEntity> pointScalesStatus = new ArrayList<>();
 
     public long getId() {
         return id;
