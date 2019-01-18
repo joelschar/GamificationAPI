@@ -69,18 +69,15 @@ public class BadgeApiController implements BadgesApi {
     public ResponseEntity<Void> deleteBadge(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                             @ApiParam(value = ""  ) @RequestBody Badge badge) {
 
-/*        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
-        for (BadgeEntity badgeEntity: badgesEntity ) {
-            if(badgeEntity.getId() == badge.getId()){
-                BadgeEntity badgeToDelete = badgeEntity;
-                badgeToDelete.setActive(false);
-                badgeRepository.save(badgeToDelete);
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-            }
+
+        BadgeEntity badgeEntityToDelete = badgeRepository.findByApplication_ApiKeyAndId(apiKey, badge.getId());
+
+        if(badgeEntityToDelete != null){
+            badgeEntityToDelete.setActive(false);
+            badgeRepository.save(badgeEntityToDelete);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
 
-*/
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
@@ -102,19 +99,15 @@ public class BadgeApiController implements BadgesApi {
     public ResponseEntity<Badge> updateBadge(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                              @ApiParam(value = "" ,required=true ) @RequestBody Badge badge) {
 
-/*        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<BadgeEntity> badgesEntity = applicationEntity.getBadges();
-        for (BadgeEntity badgeEntity: badgesEntity ) {
-            if(badgeEntity.getId() == badge.getId()){
-                BadgeEntity badgeToUpdate = badgeEntity;
-                badgeToUpdate.setActive(badge.getActive());
-                badgeToUpdate.setName(badge.getName());
-                badgeRepository.save(badgeToUpdate);
-                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-            }
+        BadgeEntity badgeToUpdate = badgeRepository.findByApplication_ApiKeyAndId(apiKey, badge.getId());
+
+        if(badgeToUpdate != null){
+            badgeToUpdate.setName(badge.getName());
+            badgeRepository.save(badgeToUpdate);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
         }
 
-*/
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
     }
 }

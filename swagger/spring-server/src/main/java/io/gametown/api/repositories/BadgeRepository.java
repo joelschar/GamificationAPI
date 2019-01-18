@@ -12,4 +12,7 @@ import java.util.List;
 public interface BadgeRepository extends CrudRepository<BadgeEntity, Integer>{
 
     List<BadgeEntity> findAllByApplication_ApiKeyAndActiveIsTrue(String apiKey);
+
+    BadgeEntity findByApplication_ApiKeyAndId(String apiKey, Integer id);
+
 }
