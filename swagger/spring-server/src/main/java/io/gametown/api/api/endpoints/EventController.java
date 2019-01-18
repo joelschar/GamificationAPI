@@ -36,55 +36,51 @@ public class EventController implements EventsApi {
     BadgeStatusRepository badgeStatusRepository;
 
     @Autowired
+    PointScaleStatusRepository pointScaleStatusRepository;
+
+    @Autowired
+    RuleRepository ruleRepository;
+
+    @Autowired
     ModelUtils tools;
 
     @Override
     public ResponseEntity<Event> newEvent(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                           @ApiParam(value = "" ,required=true ) @RequestBody Event event) {
 
-     /*   ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        // Récupération de l'application selon l'API key
+        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
+        // Save de l'event.
         EventEntity eventEntity = tools.toEventEntity(event);
         eventRepository.save(eventEntity);
 
-        String ruleToCall = eventEntity.getEvent();
-        List<RuleEntity> rules = applicationEntity.getRules();
-        List<RuleEntity> myRules = new ArrayList<>();
-        for ( RuleEntity rule : rules ) {
-            if(rule.getValue().equals(ruleToCall)){
-                myRules.add(rule);
-                System.out.println("rule found");
-            }
-        }
-
-        if(myRules.isEmpty())
+        // Récupération des règles
+        List<RuleEntity> ruleEntitys = ruleRepository.findAllByApplication_ApiKeyAndValue(apiKey,eventEntity.getEvent());
+        if(ruleEntitys.isEmpty())
             return null;
 
+        //récupération du User
         UserEntity myUser = eventEntity.getUserEntity();
 
-        boolean userExists = false;
-        List<UserEntity> users = applicationEntity.getUsers();
-        for ( UserEntity user: users){
-            if (user.getEmail().equals(myUser.getEmail())){
-                userExists = true;
-                myUser = user;
-                System.out.println("user exists");
-                break;
-            }
-        }
-
-        if(!userExists){
+        //On vérifie si il existe dans la base de donnée
+        UserEntity userEntity = userRepository.findByApplication_ApiKeyAndEmail(apiKey, myUser.getEmail());
+        if(userEntity == null){
             userRepository.save(myUser);
+            List<UserEntity> users = applicationEntity.getUsers();
             users.add(myUser);
             applicationEntity.setUsers(users);
             applicationRepository.save(applicationEntity);
             System.out.println("userCreated");
         }
 
-        for(RuleEntity myRule: myRules){
+        //Pour chaque règle on récupère le badge associé
+        for(RuleEntity myRule: ruleEntitys){
             BadgeEntity myBadge = myRule.getBadgeEntity();
             if(myBadge != null){
-                BadgeStatusEntity badgeStatus = new BadgeStatusEntity();
-                badgeStatus.setBadge(myBadge);
+                BadgeStatusEntity badgeStatusEntity = new BadgeStatusEntity();
+                badgeStatusEntity.setBadge(myBadge);
+                badgeStatusEntity.setUser(myUser);
+                badgeStatusRepository.save(badgeStatusEntity);
                 //List<BadgeStatusEntity> badgesStatus = myUser.getBadgesStatus(); // user has no badge status
                 //badgesStatus.add(badgeStatus);
                 //myUser.setBadgesStatus(badgesStatus);
@@ -93,9 +89,10 @@ public class EventController implements EventsApi {
 
             PointScaleEntity myPointScale = myRule.getPointScaleEntity();
             if(myPointScale != null){
-                PointScaleStatusEntity pointScaleStatus = new PointScaleStatusEntity();
-                pointScaleStatus.setPointScale(myPointScale);
-                pointScaleStatus.setNbPoints(myRule.getNbrPoint());
+                PointScaleStatusEntity pointScaleStatusEntity = new PointScaleStatusEntity();
+                pointScaleStatusEntity.setPointScale(myPointScale);
+                pointScaleStatusEntity.setNbPoints(myRule.getNbrPoint());
+                pointScaleStatusRepository.save(pointScaleStatusEntity);
                 //List<PointScaleStatusEntity> pointsScalesStatus = myUser.getPointScalesStatus();
                 //pointsScalesStatus.add(pointScaleStatus);
                 //myUser.setPointScalesStatus(pointsScalesStatus);
@@ -105,7 +102,7 @@ public class EventController implements EventsApi {
         }
 
         userRepository.save(myUser);
-*/
+
         return ResponseEntity.status(200).build();
     }
 

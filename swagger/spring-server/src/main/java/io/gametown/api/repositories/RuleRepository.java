@@ -11,4 +11,5 @@ import java.util.List;
  * Created by Olivier Liechti on 26/07/17.
  */
 public interface RuleRepository extends CrudRepository<RuleEntity, Long>{
+    List<RuleEntity> findAllByApplication_ApiKeyAndValue(String apikey, String value);
 }
