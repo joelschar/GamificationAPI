@@ -1,25 +1,25 @@
 swagger: '2.0'
 info:
   version: '0.1.0'
-  title: my simple api
+  title: Api Gamification
   description: An API to demonstrate Swagger
 host: localhost:8080
-basePath: /api
+basePath: /badge
 schemes:
   - http
 paths:
-  /fruits:
+  /badge:
     post:
-      description: create a fruit
+      description: create a badge
       operationId: createFruit
       consumes:
         - application/json
       parameters:
-        - name: fruit
+        - name: badge
           in: body
           required: true
           schema:
-            $ref: '#/definitions/Fruit'
+            $ref: '#/definitions/Badge'
       responses:
         '201':
           description: created
@@ -36,7 +36,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Fruit'
+              $ref: '#/definitions/Badge'
 definitions:
   Fruit:
     type: object
