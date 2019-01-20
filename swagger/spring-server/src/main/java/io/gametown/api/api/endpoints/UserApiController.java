@@ -10,6 +10,7 @@ import io.gametown.api.entities.BadgeStatusEntity;
 import io.gametown.api.entities.UserEntity;
 import io.gametown.api.repositories.ApplicationRepository;
 import io.gametown.api.repositories.BadgeRepository;
+import io.gametown.api.repositories.BadgeStatusRepository;
 import io.gametown.api.repositories.UserRepository;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,9 @@ public class UserApiController implements UsersApi {
     BadgeRepository badgeRepository;
 
     @Autowired
+    BadgeStatusRepository badgeStatusRepository;
+
+    @Autowired
     ApplicationRepository applicationRepository;
 
     @Autowired
@@ -46,53 +50,42 @@ public class UserApiController implements UsersApi {
     public ResponseEntity<User> getUser(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                         @ApiParam(value = "",required=true ) @PathVariable("userId") Integer userId) {
 
-    /*    ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<UserEntity> usersEntity = applicationEntity.getUsers();
+        UserEntity userEntity = userRepository.findByApplication_ApiKeyAndId(apiKey, userId);
 
-        for (UserEntity userEntity: usersEntity ) {
-            if(userEntity.getId() == userId){
-                return ResponseEntity.ok(tools.toUser(userEntity));
-            }
+        if(userEntity != null){
+            return ResponseEntity.ok(tools.toUser(userEntity));
         }
-        */
         return ResponseEntity.notFound().build();
     }
 
     @Override
     public ResponseEntity<List<Badge>> getUserBadges(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                                      @ApiParam(value = "",required=true ) @PathVariable("userId") Integer userId) {
-     /*
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<UserEntity> usersEntity = applicationEntity.getUsers();
 
-        List<Badge> badges = new ArrayList<>();
-
-        for (UserEntity userEntity: usersEntity ) {
-            if(userEntity.getId() == userId){
-                /*List<BadgeStatusEntity> badgesStatusEntity = userEntity.getBadgesStatus();
-                for (BadgeStatusEntity badgeStatusEntity : badgesStatusEntity){
-                    badges.add(tools.toBadge(badgeStatusEntity.getBadge()));
-                }*//*
-                return  ResponseEntity.ok(badges);
+        UserEntity userEntity = userRepository.findByApplication_ApiKeyAndId(apiKey, userId);
+        if(userEntity != null) {
+            List<BadgeStatusEntity> entities = badgeStatusRepository.findAllByUser(userEntity);
+            if (entities != null) {
+                List<Badge> badges = new ArrayList<>();
+                for (BadgeStatusEntity entity : entities) {
+                    badges.add(tools.toBadge(entity.getBadge()));
+                }
+                return ResponseEntity.ok(badges);
             }
         }
-        */
         return ResponseEntity.notFound().build();
     }
 
     @Override
     public ResponseEntity<List<User>> getUsers(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey) {
-    /*
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<UserEntity> usersEntity = applicationEntity.getUsers();
+
+        List<UserEntity> usersEntity = userRepository.findAllByApplication_ApiKeyAndActiveIsTrue(apiKey);
 
         List<User> users = new ArrayList<>();
-        for (UserEntity userEntity : usersEntity) {
+        for (UserEntity userEntity: usersEntity ) {
             users.add(tools.toUser(userEntity));
         }
-        return  ResponseEntity.ok(users);
 
-*/
-    return null;
+        return ResponseEntity.ok(users);
     }
 }

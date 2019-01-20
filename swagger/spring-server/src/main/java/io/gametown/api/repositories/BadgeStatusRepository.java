@@ -12,5 +12,6 @@ import java.util.List;
  * Created by Olivier Liechti on 26/07/17.
  */
 public interface BadgeStatusRepository extends CrudRepository<BadgeStatusEntity, Long>{
-    List<BadgeStatusEntity> findAllByApplication_ApiKeyAndUser(String apikey, UserEntity user);
+  List<BadgeStatusEntity> findAllByUser(UserEntity user);
+
 }
