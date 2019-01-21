@@ -10,5 +10,9 @@ import java.util.List;
 /**
  * Created by Olivier Liechti on 26/07/17.
  */
-public interface RuleRepository extends CrudRepository<RuleEntity, Long>{
+public interface RuleRepository extends CrudRepository<RuleEntity, Integer>{
+
+    List<RuleEntity> findAllByApplication_ApiKeyAndActiveIsTrue(String apiKey);
+
+    RuleEntity findByApplication_ApiKeyAndId(String apiKey, Integer id);
 }

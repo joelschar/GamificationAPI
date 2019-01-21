@@ -50,10 +50,8 @@ public class RuleApiController implements RulesApi {
     public ResponseEntity<Rule> createRule(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                            @ApiParam(value = "" ,required=true ) @RequestBody Rule rule) {
 
-    /*    rule.setActive(true);
+        rule.setActive(true);
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-
-        List<RuleEntity> rules = applicationEntity.getRules();
 
         int badgeID = -1;
         int pointScaleID = -1;
@@ -66,7 +64,7 @@ public class RuleApiController implements RulesApi {
 
         PointScaleEntity pointScaleEntity;
         if(pointScaleID > 0) {
-            pointScaleEntity = pointScaleRepository.findById(pointScaleID).orElseThrow(() -> new RuntimeException());
+            pointScaleEntity = pointScaleRepository.findByApplication_ApiKeyAndId(apiKey, pointScaleID);
             rule.setPointScale(tools.toPointScale(pointScaleEntity));
         }
         else {
@@ -75,7 +73,7 @@ public class RuleApiController implements RulesApi {
 
         BadgeEntity badgeEntity;
         if(badgeID > 0){
-            badgeEntity = badgeRepository.findById(badgeID).orElseThrow(() -> new RuntimeException());
+            badgeEntity = badgeRepository.findByApplication_ApiKeyAndId(apiKey, badgeID);
             rule.setBadge(tools.toBadge(badgeEntity));
         }
         else {
@@ -91,88 +89,86 @@ public class RuleApiController implements RulesApi {
             newRuleEntity.getPointScaleEntity().setId(rule.getPointScale().getId());
         }
 
+        newRuleEntity.setApplication(applicationEntity);
+
         ruleRepository.save(newRuleEntity);
         Long id = newRuleEntity.getId();
-
-        rules.add(newRuleEntity);
-        applicationEntity.setRules(rules);
-        applicationRepository.save(applicationEntity);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newRuleEntity.getId()).toUri();
 
         return ResponseEntity.created(location).build();
-       */
-    return null;
+
     }
 
     @Override
     public ResponseEntity<Void> deleteRule(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                            @ApiParam(value = ""  ) @RequestBody Rule rule) {
 
-        /*
+
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         List<RuleEntity> rulesEntity = applicationEntity.getRules();
 
-        for (RuleEntity ruleEntity: rulesEntity ) {
-            if(ruleEntity.getId() == rule.getId()){
-                ruleEntity.setActive(false);
-                ruleRepository.save(ruleEntity);
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-            }
+        RuleEntity ruleToDelete = ruleRepository.findByApplication_ApiKeyAndId(apiKey, rule.getId());
+
+        if(ruleToDelete != null){
+            ruleToDelete.setActive(false);
+            ruleRepository.save(ruleToDelete);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-*/
-        return ResponseEntity.status(204).build();
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @Override
     public ResponseEntity<List<Rule>> getRules(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey) {
 
-  /*      ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<RuleEntity> rules = applicationEntity.getRules();
+        List<RuleEntity> rules = ruleRepository.findAllByApplication_ApiKeyAndActiveIsTrue(apiKey);
 
         List<Rule> ruleList = new ArrayList<>();
 
         for (RuleEntity ruleEntity : rules) {
-            if (ruleEntity.isActive()) {
-                ruleList.add(tools.toRule(ruleEntity));
-            }
+            ruleList.add(tools.toRule(ruleEntity));
         }
 
         return  ResponseEntity.ok(ruleList);
-       */
-  return null;
     }
 
     @Override
     public ResponseEntity<Rule> updateRule(@ApiParam(value = "" ,required=true ) @RequestHeader(value="apiKey", required=true) String apiKey,
                                            @ApiParam(value = "" ,required=true ) @RequestBody Rule rule) {
 
-        /*
-        ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<RuleEntity> rulesEntity = applicationEntity.getRules();
+        RuleEntity ruleToUpdate = ruleRepository.findByApplication_ApiKeyAndId(apiKey, rule.getId());
 
         int badgeID = rule.getBadge().getId();
+
+        BadgeEntity badgeEntity = badgeRepository.findByApplication_ApiKeyAndId(apiKey, badgeID);
+
         int pointScaleID = rule.getPointScale().getId();
 
-        BadgeEntity badgeEntity = badgeRepository.findById(badgeID).orElseThrow(() -> new RuntimeException());
-        PointScaleEntity pointScaleEntity = pointScaleRepository.findById(pointScaleID).orElseThrow(() -> new RuntimeException());
+        PointScaleEntity pointScaleEntity = pointScaleRepository.findByApplication_ApiKeyAndId(apiKey, pointScaleID);
 
-        for (RuleEntity ruleEntity: rulesEntity ) {
-            if(ruleEntity.getId() == rule.getId()){
-                RuleEntity ruleToUpdate = ruleEntity;
+        if(ruleToUpdate != null){
+            if(rule.getActive() != null)
                 ruleToUpdate.setActive(rule.getActive());
 
-                ruleToUpdate.setPointScaleEntity((pointScaleEntity));
+            if(pointScaleEntity != null)
+                ruleToUpdate.setPointScaleEntity(pointScaleEntity);
+
+            if(badgeEntity != null)
                 ruleToUpdate.setBadgeEntity(badgeEntity);
+
+            if(rule.getNbrPoints() != null)
                 ruleToUpdate.setNbrPoint(rule.getNbrPoints());
+
+            if(rule.getValue() != null)
                 ruleToUpdate.setValue(rule.getValue());
-                ruleRepository.save(ruleToUpdate);
-                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-            }
+
+            ruleRepository.save(ruleToUpdate);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
         }
-*/
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }
