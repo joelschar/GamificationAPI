@@ -19,7 +19,7 @@ public class ModelUtils {
     public RuleEntity toRuleEntity(Rule rule) {
         RuleEntity entity = new RuleEntity();
         entity.setActive(rule.getActive());
-        entity.setNbrPoint(rule.getNbrPoints());
+
         if(rule.getBadge() != null)
             entity.setBadgeEntity(toBadgeEntity(rule.getBadge()));
         else
@@ -29,6 +29,13 @@ public class ModelUtils {
             entity.setPointScaleEntity(toPointScaleEntity(rule.getPointScale()));
         else
             entity.setPointScaleEntity(null);
+
+        if(rule.getNbrPoints() != null){
+            entity.setNbrPoint(rule.getNbrPoints());
+        }
+        else {
+            entity.setNbrPoint(0);
+        }
 
         entity.setValue(rule.getValue());
         return entity;

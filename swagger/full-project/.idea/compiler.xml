@@ -11,7 +11,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="gametownSpecification" target="1.8" />
-      <module name="swagger-spring" target="1.7" />
+      <module name="swagger-spring" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

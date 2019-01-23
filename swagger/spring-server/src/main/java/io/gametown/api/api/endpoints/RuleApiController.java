@@ -141,13 +141,17 @@ public class RuleApiController implements RulesApi {
 
         RuleEntity ruleToUpdate = ruleRepository.findByApplication_ApiKeyAndId(apiKey, rule.getId());
 
-        int badgeID = rule.getBadge().getId();
+        BadgeEntity badgeEntity = null;
+        if(rule.getBadge() != null){
+            int badgeID = rule.getBadge().getId();
+            badgeEntity = badgeRepository.findByApplication_ApiKeyAndId(apiKey, badgeID);
+        }
 
-        BadgeEntity badgeEntity = badgeRepository.findByApplication_ApiKeyAndId(apiKey, badgeID);
-
-        int pointScaleID = rule.getPointScale().getId();
-
-        PointScaleEntity pointScaleEntity = pointScaleRepository.findByApplication_ApiKeyAndId(apiKey, pointScaleID);
+        PointScaleEntity pointScaleEntity = null;
+        if(rule.getPointScale() != null){
+            int pointScaleID = rule.getPointScale().getId();
+            pointScaleEntity = pointScaleRepository.findByApplication_ApiKeyAndId(apiKey, pointScaleID);
+        }
 
         if(ruleToUpdate != null){
             if(rule.getActive() != null)
@@ -165,6 +169,7 @@ public class RuleApiController implements RulesApi {
             if(rule.getValue() != null)
                 ruleToUpdate.setValue(rule.getValue());
 
+            // TODO : problème au moment de sauver ( je n'ai pas compris pourquoi )
             ruleRepository.save(ruleToUpdate);
             return ResponseEntity.status(HttpStatus.ACCEPTED).build();
         }
