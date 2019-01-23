@@ -23,7 +23,10 @@ public class RuleEntity implements Serializable {
     @Column(name = "ACTIVE", nullable = false, insertable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean active;
 
+    @ManyToOne(fetch = FetchType.EAGER)
     private BadgeEntity badgeEntity;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     private PointScaleEntity pointScaleEntity;
     private int nbrPoint;
 
