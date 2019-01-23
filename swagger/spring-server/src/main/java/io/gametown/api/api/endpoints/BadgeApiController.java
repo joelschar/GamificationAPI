@@ -103,6 +103,7 @@ public class BadgeApiController implements BadgesApi {
 
         if(badgeToUpdate != null){
             badgeToUpdate.setName(badge.getName());
+            badgeToUpdate.setActive(badge.getActive());
             badgeRepository.save(badgeToUpdate);
             return ResponseEntity.status(HttpStatus.ACCEPTED).build();
         }
