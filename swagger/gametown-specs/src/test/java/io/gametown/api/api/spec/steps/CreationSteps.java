@@ -1,13 +1,11 @@
 package io.gametown.api.api.spec.steps;
-
+/*
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import io.gametown.api.ApiException;
-import io.gametown.api.ApiResponse;
-import io.gametown.api.api.DefaultApi;
-import io.gametown.api.api.dto.Fruit;
+import io.gametown.api.
 import io.gametown.api.api.spec.helpers.Environment;
+import io.swagger.annotations.ApiResponse;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -15,15 +13,14 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by Olivier Liechti on 27/07/17.
  */
+/*
 public class CreationSteps {
 
     private Environment environment;
     private DefaultApi api;
 
-    Fruit fruit;
-
     private ApiResponse lastApiResponse;
-    private ApiException lastApiException;
+    private  lastApiException;
     private boolean lastApiCallThrewException;
     private int lastStatusCode;
 
@@ -64,3 +61,4 @@ public class CreationSteps {
     }
 
 }
+*/

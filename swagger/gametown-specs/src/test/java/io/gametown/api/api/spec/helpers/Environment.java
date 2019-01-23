@@ -1,5 +1,6 @@
 package io.gametown.api.api.spec.helpers;
 
+import io.gametown.api.api.*;
 import io.gametown.api.api.DefaultApi;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class Environment {
     public Environment() throws IOException {
         Properties properties = new Properties();
         properties.load(this.getClass().getClassLoader().getResourceAsStream("environment.properties"));
-        String url = properties.getProperty("io.gametown.api.server.url");
+        String url = properties.getProperty("io.gametown.api");
         api.getApiClient().setBasePath(url);
 
     }
@@ -23,6 +24,5 @@ public class Environment {
     public DefaultApi getApi() {
         return api;
     }
-
 
 }
