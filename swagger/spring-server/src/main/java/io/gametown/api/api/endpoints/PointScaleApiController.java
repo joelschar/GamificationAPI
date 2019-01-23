@@ -73,17 +73,6 @@ public class PointScaleApiController implements PointScalesApi {
         pointScaleEntityToDelete.setActive(false);
         pointScaleRepository.save(pointScaleEntityToDelete);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-    /*    ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<PointScaleEntity> pointScalesEntity = applicationEntity.getPointScales();
-        for (PointScaleEntity pointScaleEntity: pointScalesEntity ) {
-            if(pointScaleEntity.getId() == pointScale.getId()){
-                PointScaleEntity pointScaleToDelete = pointScaleEntity;
-                pointScaleToDelete.setActive(false);
-                pointScaleRepository.save(pointScaleToDelete);
-                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-            }
-        }
-        */
     }
 
     @Override
@@ -108,21 +97,9 @@ public class PointScaleApiController implements PointScalesApi {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         pointScaleEntityToUpdate.setName(pointScale.getName());
+        pointScaleEntityToUpdate.setActive(pointScale.getActive());
         pointScaleRepository.save(pointScaleEntityToUpdate);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-    /*    ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
-        List<PointScaleEntity> pointScalesEntity = applicationEntity.getPointScales();
-        for (PointScaleEntity pointScaleEntity: pointScalesEntity ) {
-            if(pointScaleEntity.getId() == pointScale.getId()){
-                PointScaleEntity pointScaleToUpdate = pointScaleEntity;
-                pointScaleToUpdate.setActive(pointScale.getActive());
-                pointScaleToUpdate.setName(pointScale.getName());
-                pointScaleRepository.save(pointScaleToUpdate);
-                return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-            }
-        }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        */
     }
 }
