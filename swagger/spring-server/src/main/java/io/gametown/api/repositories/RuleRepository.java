@@ -15,4 +15,6 @@ public interface RuleRepository extends CrudRepository<RuleEntity, Integer>{
     List<RuleEntity> findAllByApplication_ApiKeyAndActiveIsTrue(String apiKey);
 
     RuleEntity findByApplication_ApiKeyAndId(String apiKey, Integer id);
+
+    List<RuleEntity> findAllByApplication_ApiKeyAndValue(String apikey, String value);
 }
