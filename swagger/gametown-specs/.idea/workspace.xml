@@ -4,18 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/src/test/java/io/gametown/api/api/spec/steps/BadgeSteps.java" line="23" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f64fdf9a-7d67-409f-90d6-a48ef0927506" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/io/gametown/api/api/spec/steps/EventSteps.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/io/gametown/api/api/spec/steps/PointscaleSteps.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/io/gametown/api/api/spec/steps/RuleSteps.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/io/gametown/api/api/spec/steps/UserSteps.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/scenarios/events.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/scenarios/pointscale.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/scenarios/rules.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/scenarios/users.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/scenarios/badges.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/scenarios/badges.feature" afterDir="false" />
-    </list>
+    <list default="true" id="f64fdf9a-7d67-409f-90d6-a48ef0927506" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -118,7 +107,11 @@
       </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/io/gametown/api/api/spec/steps/RuleSteps.java">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="20" column="5" lean-forward="true" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -142,7 +135,7 @@
         <entry file="file://$PROJECT_DIR$/src/test/resources/scenarios/pointscale.feature">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="165">
-              <caret line="11" column="23" lean-forward="true" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
+              <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -292,7 +285,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1548267474043" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1548267833846" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.applicationServers" />
   </component>
@@ -690,18 +683,23 @@
       <workItem from="1547801196370" duration="205000" />
       <workItem from="1547801764742" duration="77000" />
       <workItem from="1548256218483" duration="5314000" />
-      <workItem from="1548264992443" duration="1698000" />
+      <workItem from="1548264992443" duration="2101000" />
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="SpecificationTest - 2019.01.23 at 19h 17m 59s.xml">
+      <configuration name="SpecificationTest" configurationId="JUnit" />
+    </history-entry>
+  </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9259000" />
+    <option name="totallyTimeSpent" value="9662000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1920" height="1050" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.255603" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.255603" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -730,7 +728,7 @@
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="right" id="Data View" order="5" />
-      <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.1547492" />
+      <window_info active="true" anchor="right" id="Maven Projects" order="6" visible="true" weight="0.1547492" />
       <window_info anchor="right" id="Database" order="7" />
       <window_info anchor="right" id="Palette&#9;" order="8" />
       <window_info anchor="right" id="Theme Preview" order="9" />
@@ -871,7 +869,7 @@
     <entry file="file://$PROJECT_DIR$/src/test/resources/scenarios/pointscale.feature">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
-          <caret line="11" column="23" lean-forward="true" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
+          <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -903,7 +901,11 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/io/gametown/api/api/spec/steps/RuleSteps.java">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="20" column="5" lean-forward="true" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+        </state>
+      </provider>
     </entry>
   </component>
 </project>
