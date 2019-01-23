@@ -1,7 +1,7 @@
 Feature: Badges
 
   Background:
-    Given There is an api server
+  Given There is an api server
 
   Scenario: Create a Badge
     Given I have a badge creation payload
@@ -9,8 +9,10 @@ Feature: Badges
     Then I receive a 201 status code
 
 
-  Scenario: Delete a Badge
-
+#  Scenario: Delete a Badge
+#
   Scenario: Get active Badges
-
-  Scenario: Update a Badge
+    Given I GET it to /badges with an api token
+    Then I receive a 200 status code
+#
+#  Scenario: Update a Badge

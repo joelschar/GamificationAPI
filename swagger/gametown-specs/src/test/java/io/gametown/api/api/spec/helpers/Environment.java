@@ -13,10 +13,12 @@ public class Environment {
 
     private DefaultApi api = new DefaultApi();
 
+    private final String API_KEY = "application01";
+
     public Environment() throws IOException {
         Properties properties = new Properties();
         properties.load(this.getClass().getClassLoader().getResourceAsStream("environment.properties"));
-        String url = properties.getProperty("io.gametown.api");
+        String url = properties.getProperty("io.gametown.api.server.url");
         api.getApiClient().setBasePath(url);
 
     }
@@ -24,5 +26,7 @@ public class Environment {
     public DefaultApi getApi() {
         return api;
     }
+
+    public String getApiKey(){ return API_KEY; }
 
 }
