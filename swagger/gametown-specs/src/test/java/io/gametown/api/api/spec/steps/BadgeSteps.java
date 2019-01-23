@@ -2,8 +2,8 @@ package io.gametown.api.api.spec.steps;
 
 import io.gametown.api.api.DefaultApi;
 import io.gametown.api.api.spec.helpers.Environment;
-import io.gametown.api.api.ApiException;
-import io.gametown.api.api.ApiResponse;
+import io.gametown.api.ApiException;
+import io.gametown.api.ApiResponse;
 
 public class BadgeSteps {
 
