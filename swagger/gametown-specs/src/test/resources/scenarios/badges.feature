@@ -22,7 +22,7 @@ Feature: Badges
   Scenario: Update a Badge
     Given I have a badge created and a badge updating payload
     When I PUT a badge with endpoint /badges and an api token
-    Then I receive a 200 status code
+    Then I receive a 202 status code
 
 
 #  Scenario: Delete a Badge
@@ -30,4 +30,4 @@ Feature: Badges
   Scenario: Delete a badge
     Given I have a badge created and a badge deleting payload
     When I DELETE a badge with endpoint /badges  and an api token
-    Then I receive a 200 status code
+    Then I receive a 204 status code
