@@ -52,7 +52,7 @@ public class EventController implements EventsApi {
         ApplicationEntity applicationEntity = applicationRepository.findById(apiKey).orElseThrow(() -> new RuntimeException());
         // Save de l'event.
         EventEntity eventEntity = tools.toEventEntity(event);
-        eventRepository.save(eventEntity);
+        eventEntity.setApplication(applicationEntity);
 
         // Récupération des règles
         List<RuleEntity> ruleEntitys = ruleRepository.findAllByApplication_ApiKeyAndValue(apiKey,eventEntity.getEvent());
@@ -65,13 +65,13 @@ public class EventController implements EventsApi {
         //On vérifie si il existe dans la base de donnée
         UserEntity userEntity = userRepository.findByApplication_ApiKeyAndEmail(apiKey, myUser.getEmail());
         if(userEntity == null){
-            userRepository.save(myUser);
             List<UserEntity> users = applicationEntity.getUsers();
             users.add(myUser);
             applicationEntity.setUsers(users);
-            applicationRepository.save(applicationEntity);
             System.out.println("userCreated");
         }
+        myUser.setApplication(applicationEntity);
+        myUser.setActive(true);
 
         //Pour chaque règle on récupère le badge associé
         for(RuleEntity myRule: ruleEntitys){
@@ -92,6 +92,7 @@ public class EventController implements EventsApi {
                 PointScaleStatusEntity pointScaleStatusEntity = new PointScaleStatusEntity();
                 pointScaleStatusEntity.setPointScale(myPointScale);
                 pointScaleStatusEntity.setNbPoints(myRule.getNbrPoint());
+                pointScaleStatusEntity.setUser(myUser);
                 pointScaleStatusRepository.save(pointScaleStatusEntity);
                 //List<PointScaleStatusEntity> pointsScalesStatus = myUser.getPointScalesStatus();
                 //pointsScalesStatus.add(pointScaleStatus);
@@ -101,7 +102,10 @@ public class EventController implements EventsApi {
 
         }
 
+        eventEntity.setUserEntity(myUser);
+        eventRepository.save(eventEntity);
         userRepository.save(myUser);
+        applicationRepository.save(applicationEntity);
 
         return ResponseEntity.status(200).build();
     }

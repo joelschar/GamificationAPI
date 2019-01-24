@@ -384,3 +384,5 @@ definitions:
         $ref: '#/definitions/User'
       event:
         type: string
+      description :
+        type: string
