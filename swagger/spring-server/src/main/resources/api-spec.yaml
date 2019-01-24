@@ -85,7 +85,7 @@ paths:
         schema:
           $ref: '#/definitions/Badge'
       responses:
-        '202':
+        '204':
           description: marked for deletion
 
   /pointScales:
