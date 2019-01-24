@@ -63,7 +63,7 @@ public class EventController implements EventsApi {
         UserEntity myUser = eventEntity.getUserEntity();
 
         //On vérifie si il existe dans la base de donnée
-        UserEntity userEntity = userRepository.findByApplication_ApiKeyAndEmail(apiKey, myUser.getEmail());
+        UserEntity userEntity = userRepository.findByApplication_ApiKeyAndId(apiKey, myUser.getId());
         if(userEntity == null){
             List<UserEntity> users = applicationEntity.getUsers();
             users.add(myUser);
