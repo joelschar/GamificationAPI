@@ -17,7 +17,7 @@ public class UserEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
 
     private String firstname;
     private String lastname;
@@ -29,7 +29,7 @@ public class UserEntity implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private ApplicationEntity application;
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
