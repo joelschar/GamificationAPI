@@ -83,7 +83,9 @@ public class UserApiController implements UsersApi {
 
         List<User> users = new ArrayList<>();
         for (UserEntity userEntity: usersEntity ) {
-            users.add(tools.toUser(userEntity));
+            User user = tools.toUser(userEntity);
+            user.setId(userEntity.getId());
+            users.add(user);
         }
 
         return ResponseEntity.ok(users);

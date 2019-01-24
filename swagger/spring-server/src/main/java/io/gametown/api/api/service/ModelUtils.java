@@ -108,7 +108,7 @@ public class ModelUtils {
     }
 
     public EventEntity toEventEntity(Event event) {
-        EventEntity entity = new EventEntity();;
+        EventEntity entity = new EventEntity();
         entity.setEvent(event.getEvent());
         entity.setUserEntity(toUserEntity(event.getUser()));
         entity.setDescription(event.getDescription());

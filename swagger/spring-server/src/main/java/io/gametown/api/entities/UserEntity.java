@@ -29,10 +29,6 @@ public class UserEntity implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private ApplicationEntity application;
 
-    public Integer getId() {
-        return id;
-    }
-
     public String getFirstname() {
         return firstname;
     }
@@ -71,5 +67,13 @@ public class UserEntity implements Serializable {
 
     public void setApplication(ApplicationEntity application) {
         this.application = application;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
