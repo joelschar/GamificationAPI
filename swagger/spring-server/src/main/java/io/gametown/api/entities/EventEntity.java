@@ -18,6 +18,7 @@ public class EventEntity implements Serializable {
 
     private String event;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private UserEntity userEntity;
 
     private String description;
