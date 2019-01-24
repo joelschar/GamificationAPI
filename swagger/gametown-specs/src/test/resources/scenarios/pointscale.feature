@@ -1,33 +1,29 @@
 Feature: PointScales
 
   Background:
-    Given There is an api server with a /pointScales endpoint
+    Given There is an api server with a /pointscales endpoint
 
-
-#   Scenario: Create a PointScale
-#
   Scenario: Create a PointScale
     Given I have a pointScale creation payload
-    When I POST a pointScale to endpoint /pointScale and an api token
-    Then I receive a 201 status code
+    When I POST it to the endpoint /pointScale with an api token
+    Then I receive a 201 status code from /pointScale
 
-#   Scenario: Get a PointScale
-#
   Scenario: Get a PointScale
-    Given I have a pointScale created and a pointScale getting payload
-    When I GET a pointScale with endpoint /pointScales and an api token
-    Then I receive a 200 status code
+    Given I have a pointScale creation payload
+    Given I POST it to the endpoint /pointScale with an api token
+    When I GET the endpoint /pointScales with an api token
+    Then I receive a 200 status code from /pointScale
 
-#  Scenario: Update a PointScale
   Scenario: Update a PointScale
-    Given I have a pointScale created and a pointScale updating payload
-    When I PUT a pointScale with endpoint /pointScales and an api token
-    Then I recieve a 200 status code
+    Given I have a pointScale creation payload
+    Given I POST it to the endpoint /pointScale with an api token
+    Given I have a pointscale creation paylod from GET response
+    When I UPDATE it with endpoint /pointScales and an api token
+    Then I receive a 202 status code from /pointScale
 
-
-#  Scenario: Delete a PointScale
-#
   Scenario: Delete a PointScale
-    Given I have a pointScale created and a pointScale deleting payload
-    When I DELETE a pointScale with endpoint /pointScales  and an api token
-    Then I receive a 200 status code
+    Given I have a pointScale creation payload
+    Given I POST it to the endpoint /pointScale with an api token
+    Given I have a pointscale creation paylod from GET response
+    When I DELETE a pointScale with endpoint /pointScales and an api token
+    Then I receive a 202 status code from /pointScale
