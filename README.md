@@ -2,9 +2,13 @@
 
 __Authors__: Steve Henriquet, Yann Lederrey, Patrick Neto and Joël Shär.
 
+
+
 ## Overview
 
 This repo contains a complet infrastructure to run a simple domain model exposed via an API REST, that can be accessed with an API Key. The domain modelize a simple gamification engine that uses typical game elements and mechanics, relevant to improve user experience in various types of application.
+
+
 
 ## Getting started
 
@@ -71,7 +75,7 @@ mvn spring-boot:run
 
 Make sure that the port 8080 isn't yet used. Once started, the server will run at the adress http://localhost:8080/api, and will rend a page like that:
 
-![image-20190125002606570](/Users/patrickneto/Library/Application Support/typora-user-images/image-20190125002606570.png)
+![swaggerUI](./readme_img/swaggerUI.png)
 
 ###The easy way
 
@@ -107,5 +111,10 @@ You can use curl to invoke the endpoints:
   curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'apiKey: application01' -d '{"active": true, "id": 2, "name": "badge02"}' 'http://localhost:8080/api/badges'
   ```
 
-## Test the Gamification API REST
+## Runing the tests
 
+
+
+## Testing the Gamification API REST
+
+Two kinds of tests are made to a
