@@ -93,6 +93,8 @@ public class ModelUtils {
 
     public UserEntity toUserEntity(User user) {
         UserEntity entity = new UserEntity();
+        if(user.getId() != null)
+            entity.setId((int) user.getId());
         entity.setFirstname(user.getFirstname());
         entity.setLastname(user.getLastname());
         entity.setEmail(user.getEmail());
@@ -101,6 +103,8 @@ public class ModelUtils {
 
     public User toUser(UserEntity entity) {
         User user = new User();
+        if(entity.getId() != null)
+            user.setId((int) entity.getId());
         user.setFirstname(entity.getFirstname());
         user.setLastname(entity.getLastname());
         user.setEmail(entity.getEmail());

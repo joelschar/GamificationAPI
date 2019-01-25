@@ -176,7 +176,6 @@ public class UserSteps {
 
     @Then("^I can find the user in the GET response$")
     public void i_can_find_the_user_in_the_GET_response() throws Throwable {
-
         List<User> users = api.getUsers(environment.getApiKey());
         boolean isInResponse = false;
         for (User u : users) {
@@ -186,5 +185,17 @@ public class UserSteps {
             }
         }
         assertTrue(isInResponse);
+    }
+
+    @Then("^I can find the user in the GET response only once fro Event$")
+    public void i_can_find_the_user_in_the_GET_response_only_once_fro_Event() throws Throwable {
+        List<User> users = api.getUsers(environment.getApiKey());
+        int countUsers = 0;
+        for (User u : users) {
+            if (u.getEmail().equals(user.getEmail())) {
+                countUsers++;
+            }
+        }
+        assertEquals(1, countUsers);
     }
 }

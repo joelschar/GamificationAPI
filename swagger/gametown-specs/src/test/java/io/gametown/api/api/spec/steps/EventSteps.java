@@ -33,6 +33,7 @@ public class EventSteps {
     public EventSteps(Environment environment) {
         this.environment = environment;
         this.api = environment.getApi();
+        this.environment.setTimetamp(System.currentTimeMillis());
     }
 
     //TODO Trouver moyen de tester si existe pas on créé.
@@ -45,17 +46,19 @@ public class EventSteps {
         assertNotNull(api);
     }
 
+    @Given("^I have a user creation payload for my event$")
+    public void i_have_a_user_creation_payload_for_my_event() throws Throwable {
+        // on définit l'utilisateur qui va recevoir le badge, ici il existe pas
+        user = new User();
+        user.setEmail("test" + environment.getTimetamp() + "@gmail.com" );
+        user.setFirstname("Roger"  + environment.getTimetamp());
+        user.setLastname("Rabbit"  + environment.getTimetamp());
+    }
+
     @Given("^I have a event creation payload$")
     public void iHaveAEventCreationPayload() throws Throwable {
         event = new Event();
-        event.setEvent("publishFirstPost"); //same name that the rule created before in the test
-
-        // on définit l'utilisateur qui va recevoir le badge, ici il existe pas
-        user = new User();
-        user.setEmail("test@gmail.com" + System.currentTimeMillis());
-        user.setFirstname("Roger");
-        user.setLastname("Rabbit");
-        user.setId(2);
+        event.setEvent(environment.getRule().getValue()); //same name that the rule created before in the test
         event.setUser(user);
     }
 
@@ -90,8 +93,18 @@ public class EventSteps {
             }
         }
 
-        assertEquals(nbrSameUser, 1);
-        throw new PendingException();
+        assertEquals(1, nbrSameUser);
+    }
+
+    @Given("^I get the created user ID$")
+    public void i_get_the_created_user_ID() throws Throwable {
+        List<User> users = api.getUsers(environment.getApiKey());
+        for (User us : users){
+            if(us.getEmail().equals(user.getEmail())){
+                user.setId(us.getId());
+                break;
+            }
+        }
     }
 
     @Then("^the user as gain the badge$")
@@ -106,10 +119,11 @@ public class EventSteps {
         }
         List<Badge> badges = api.getUserBadges(environment.getApiKey(), userId);
         for (Badge badge : badges){
-            if (badge.getName().equals("FirstPost")){
+            if (badge.getName().equals(environment.getBadge().getName())){
                 userHasGainTheBadge = true;
             }
         }
         assertTrue(userHasGainTheBadge);
     }
+
 }
