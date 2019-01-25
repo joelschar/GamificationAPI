@@ -24,7 +24,7 @@ Feature: Badges
   Scenario: Update a Badge
     Given I have a badge created and a badge updating payload
     When I PUT a badge with endpoint /badges and an api token
-    Then I receive a 204 status code
+    Then I receive a 202 status code
     Then I have updated a badge where the name changed to "badgeUpdated"
 
 
