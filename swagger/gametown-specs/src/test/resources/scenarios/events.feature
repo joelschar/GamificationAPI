@@ -5,7 +5,13 @@ Feature: Events
 
 #   Scenario: Get a Event
 #
-  Scenario: Get a Event
-    Given I have a event created and a event getting payload
-    When I GET a event with endpoint /events and an api token
-    Then I receive a 200 status code
+  Scenario: Create a new Event
+    Given I have a Badge creation payload for my rule
+    Given I POST a badge to endpoint /badges for my rule
+    Given I have a rule creation payload with Badge
+    When I POST a rule with Badge to endpoint /rules and an api token
+    Given I have a event creation payload
+    When I POST my event to endpoint /events
+    Then I receive a 200 status code for Event
+    Then the user exist one time
+    Then the user as gain the badge
