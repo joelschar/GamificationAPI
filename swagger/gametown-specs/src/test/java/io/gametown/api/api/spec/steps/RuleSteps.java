@@ -45,7 +45,7 @@ public class RuleSteps {
     @Given("^I have a Badge creation payload for my rule$")
     public void iHaveABadgeCreationPayloadForMyRule() throws Throwable {
         badge = new Badge();
-        badge.setName("FirstPost");
+        badge.setName("FirstPost"+System.currentTimeMillis());
         badge.setActive(true);
     }
 
@@ -77,7 +77,7 @@ public class RuleSteps {
         ruleWithBadge.setBadge(badge);
         ruleWithBadge.setNbrPoints(0);
         ruleWithBadge.setPointScale(null);
-        ruleWithBadge.setValue("publishFirstPost");
+        ruleWithBadge.setValue("publishFirstPost"+System.currentTimeMillis());
     }
 
 
@@ -114,7 +114,7 @@ public class RuleSteps {
     public void iHaveAPointScaleCreationPayloadForMyRule() throws Throwable {
         pointScale = new PointScale();
         pointScale.setActive(true);
-        pointScale.setName("Post");
+        pointScale.setName("Post"+System.currentTimeMillis());
     }
 
     @Given("^I POST a PointScale to endpoint /pointScale for my rule$")
@@ -144,7 +144,7 @@ public class RuleSteps {
         ruleWithPointScale.setBadge(null);
         ruleWithPointScale.setNbrPoints(50);
         ruleWithPointScale.setPointScale(pointScale);
-        ruleWithPointScale.setValue("publishNewPost");
+        ruleWithPointScale.setValue("publishNewPost"+System.currentTimeMillis());
     }
 
     @When("^I POST a rule with PointScale to endpoint /rules and an api token$")
@@ -183,7 +183,7 @@ public class RuleSteps {
             ruleWithPointScaleAndBadge.setBadge(badge);
             ruleWithPointScaleAndBadge.setNbrPoints(50);
             ruleWithPointScaleAndBadge.setPointScale(pointScale);
-            ruleWithPointScaleAndBadge.setValue("publishFirstNewPost");
+            ruleWithPointScaleAndBadge.setValue("publishFirstNewPost"+System.currentTimeMillis());
         }
 
         @When("^I POST a rule with PointScale and Badge to endpoint /rules and an api token$")
@@ -260,7 +260,7 @@ public class RuleSteps {
                     tempRule = rule;
             }
 
-            tempRule.setValue("publishNewImage");
+            tempRule.setValue("publishNewImage"+System.currentTimeMillis());
 
             lastApiResponse = api.updateRuleWithHttpInfo(environment.getApiKey(), tempRule );
             lastApiCallThrewException = false;

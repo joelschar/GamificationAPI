@@ -9,7 +9,6 @@ import io.gametown.api.ApiResponse;
 import io.gametown.api.api.DefaultApi;
 import io.gametown.api.api.spec.helpers.Environment;
 import io.gametown.api.api.dto.PointScale;
-import org.junit.Assert;
 
 import java.util.List;
 
