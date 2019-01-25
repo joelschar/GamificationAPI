@@ -49,6 +49,7 @@ Feature: Rules
     Then I receive at least one Rule and not null
 
 #  Scenario: Update a Rule
+#
   Scenario: Update a Rule
     Given I have a Badge creation payload for my rule
     Given I POST a badge to endpoint /badges for my rule

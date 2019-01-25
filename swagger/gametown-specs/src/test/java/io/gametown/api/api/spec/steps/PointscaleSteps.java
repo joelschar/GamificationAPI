@@ -12,8 +12,7 @@ import io.gametown.api.api.dto.PointScale;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class PointscaleSteps {
 
@@ -54,6 +53,11 @@ public class PointscaleSteps {
                 pointscale = p;
         }
     }
+    @Given("^I change its name$")
+    public void i_change_its_name() throws Throwable {
+        pointscale.setName("ChangedPointScale_" + System.currentTimeMillis());
+    }
+
 
     @When("^I POST it to the endpoint /pointScale with an api token$")
     public void i_POST_it_to_the_endpoint_pointScale_with_an_api_token() throws Throwable {
@@ -119,7 +123,32 @@ public class PointscaleSteps {
     @Then("^I receive a (\\d+) status code from /pointScale$")
     public void i_receive_a_status_code_from_pointScale(int arg1) throws Throwable {
         assertEquals(arg1, lastStatusCode);
+    }
 
+    @Then("^I can find the pointscale in the GET response$")
+    public void i_can_find_the_pointscale_in_the_GET_response() throws Throwable {
+        List<PointScale> pointScales = api.getPointScales(environment.getApiKey());
+        boolean isInResponse = false;
+        for(PointScale p: pointScales){
+            if(p.getName().equals(pointscale.getName())) {
+                isInResponse = true;
+                break;
+            }
+        }
+        assertTrue(isInResponse);
+    }
+
+    @Then("^I can't find the pointscale in the GET response$")
+    public void i_can_t_find_the_pointscale_in_the_GET_response() throws Throwable {
+        List<PointScale> pointScales = api.getPointScales(environment.getApiKey());
+        boolean isInResponse = false;
+        for(PointScale p: pointScales){
+            if(p.getName().equals(pointscale.getName())) {
+                isInResponse = true;
+                break;
+            }
+        }
+        assertFalse(isInResponse);
     }
 
 }

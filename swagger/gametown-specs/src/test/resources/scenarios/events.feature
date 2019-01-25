@@ -1,9 +1,4 @@
-Feature: Events
-
-  Background:
-    Given There is an api server with a /events endpoint
-
-#   Scenario: Get a Event
+#Feature: Events
 #
   Scenario: Create a new Event
     Given I have a Badge creation payload for my rule
@@ -15,3 +10,4 @@ Feature: Events
     Then I receive a 200 status code for Event
     Then the user exist one time
     Then the user as gain the badge
+

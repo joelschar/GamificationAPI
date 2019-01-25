@@ -11,5 +11,4 @@ public interface UserRepository extends CrudRepository<UserEntity, Long>{
     UserEntity findByApplication_ApiKeyAndEmail(String apikey, String email);
   List<UserEntity> findAllByApplication_ApiKeyAndActiveIsTrue(String apiKey);
   UserEntity findByApplication_ApiKeyAndId(String apiKey, Integer id);
-
 }
