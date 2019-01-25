@@ -180,7 +180,7 @@ Tests effectués dans les grandes ligne :
     - test avancé : vérifier que le user lié à l'event a bien reçu le badge appelé via la rule.
   - Création d'un event
     - test du status code : 200
-    - test avancé : vérifier que le user lié à l'event a bien reçu le badge appelé via la rule.
+      - test avancé : vérifier que le user lié à l'event a bien reçu le badge appelé via la rule.
 
 ## Test jMeter
 
