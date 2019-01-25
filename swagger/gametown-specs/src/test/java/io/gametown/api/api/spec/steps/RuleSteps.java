@@ -35,6 +35,7 @@ public class RuleSteps {
     public RuleSteps(Environment environment) {
         this.environment = environment;
         this.api = environment.getApi();
+        this.environment.setTimetamp(System.currentTimeMillis());
     }
 
     @Given("^There is an api server with a /rules endpoint$")
@@ -47,6 +48,7 @@ public class RuleSteps {
         badge = new Badge();
         badge.setName("FirstPost"+System.currentTimeMillis());
         badge.setActive(true);
+        environment.setBadge(badge);
     }
 
     @Given("^I POST a badge to endpoint /badges for my rule$")
@@ -77,7 +79,8 @@ public class RuleSteps {
         ruleWithBadge.setBadge(badge);
         ruleWithBadge.setNbrPoints(0);
         ruleWithBadge.setPointScale(null);
-        ruleWithBadge.setValue("publishFirstPost"+System.currentTimeMillis());
+        ruleWithBadge.setValue("publishFirstPost"+environment.getTimetamp());
+        environment.setRule(ruleWithBadge);
     }
 
 
@@ -114,7 +117,7 @@ public class RuleSteps {
     public void iHaveAPointScaleCreationPayloadForMyRule() throws Throwable {
         pointScale = new PointScale();
         pointScale.setActive(true);
-        pointScale.setName("Post"+System.currentTimeMillis());
+        pointScale.setName("Post"+environment.getTimetamp());
     }
 
     @Given("^I POST a PointScale to endpoint /pointScale for my rule$")
@@ -144,7 +147,7 @@ public class RuleSteps {
         ruleWithPointScale.setBadge(null);
         ruleWithPointScale.setNbrPoints(50);
         ruleWithPointScale.setPointScale(pointScale);
-        ruleWithPointScale.setValue("publishNewPost"+System.currentTimeMillis());
+        ruleWithPointScale.setValue("publishNewPost"+environment.getTimetamp());
     }
 
     @When("^I POST a rule with PointScale to endpoint /rules and an api token$")
@@ -183,7 +186,7 @@ public class RuleSteps {
             ruleWithPointScaleAndBadge.setBadge(badge);
             ruleWithPointScaleAndBadge.setNbrPoints(50);
             ruleWithPointScaleAndBadge.setPointScale(pointScale);
-            ruleWithPointScaleAndBadge.setValue("publishFirstNewPost"+System.currentTimeMillis());
+            ruleWithPointScaleAndBadge.setValue("publishFirstNewPost"+environment.getTimetamp());
         }
 
         @When("^I POST a rule with PointScale and Badge to endpoint /rules and an api token$")
@@ -260,7 +263,8 @@ public class RuleSteps {
                     tempRule = rule;
             }
 
-            tempRule.setValue("publishNewImage"+System.currentTimeMillis());
+            environment.setTimetamp(System.currentTimeMillis());
+            tempRule.setValue("publishNewImage"+environment.getTimetamp());
 
             lastApiResponse = api.updateRuleWithHttpInfo(environment.getApiKey(), tempRule );
             lastApiCallThrewException = false;
