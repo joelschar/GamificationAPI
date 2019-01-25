@@ -43,7 +43,7 @@ docker ps
 
 You should have an output like this:
 
-![dockerps-mysql](/home/zutt/Documents/sync/Heig/AMT/GamificationAPI/readme_img/dockerps-mysql.png)
+![dockerps-mysql](readme_img/dockerps-mysql.png)
 
 To make sur that the database is effectively available and populated, you need to access in the conainer. For this, you can run the command:
 
@@ -75,7 +75,7 @@ mvn spring-boot:run
 
 Make sure that the port 8080 isn't yet used. Once started, the server will run at the adress http://localhost:8080/api, and will rend a page like that:
 
-![swaggerUI](/home/zutt/Documents/sync/Heig/AMT/GamificationAPI/readme_img/swaggerUI.png)
+![swaggerUI](readme_img/swaggerUI.png)
 
 ###The easy way
 
@@ -202,4 +202,4 @@ Donc l'on remarque clairement qu'il y a un problème de gestion de la concurrenc
 ### Solution
 Il faudrait mettre en place une gestion de la concurrence pessimiste ou optimiste.
 La distinction entre les deux est qu'en pessimiste, la gestion se fait en bloquant l'accès à la ressource si celle-ci est déjà en cours d'utilisation mais cela peut conduire à des deadlocks. En ce qui concerne la gestion de la concurrence optimiste, il y a la possibilité d'utiliser un ETag dans les requêtes de réponse si HTTP/1.1 est utilisée. Le ETag est un hash de la valeur d'une ressources, du temps de la dernière modification ou encore juste un numéro de révision. Le service qui utilise l'API REST doit donc ajouter dans son header un champs If-Match. Cela rend la requête conditionnelle et permet de vérifier si la ressource n'a pas été modifiée. Si la condition est vrai, pas de modification, alors elle est acceptée sinon on recevrait une réponse 412 (Precondition failed).
-Sinon une autre manière de procédé est d'utilisé l'annotation JPA @Version qui permettra la création d'un champ de révision directement dans la base de données et donc c'est JPA directement qui détectera un conflit dans les updates.
+Sinon une autre manière de procédé est d'utilisé l'annotation JPA @Version qui permettra la création d'un champ de révision directement dans la base de données et donc c'est JPA directement qui détectera un conflit dans les updates. Et une dernière manière serait de rendre bien la combinaison des champs apiKey et email unique ce qui soulèverais une exception dans la base de données lors de l'ajout et il suffirait de la catcher dans le code pour gérer le problème de concurence.
